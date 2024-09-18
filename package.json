@@ -1,0 +1,24 @@
+{
+  "name": "epitreplot",
+  "version": "1.0.0",
+  "description": "Profesionnal work module: Trello clone aka EpiTrello",
+  "scripts": {
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:server": "cd backend && npm start",
+    "start:client": "cd client/EpiTreplot && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoxLoveYa/EpiTreplot.git"
+  },
+  "author": "NoxLoveYa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoxLoveYa/EpiTreplot/issues"
+  },
+  "homepage": "https://github.com/NoxLoveYa/EpiTreplot#readme",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
