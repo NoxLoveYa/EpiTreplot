@@ -1,13 +1,28 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
+const DataBaseConnection = require("./Services/DatabaseService");
 
-require("dotenv").config();
-const port = process.env.SERVER_PORT || 3000;
+app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
 });
 
-app.listen(port, () => {
-    console.log(`Server listening on port: ${port}!`);
-});
+const databaseConnection = new DataBaseConnection().connect();
+const userRoutes = require('./Routes/UserRoutes')(databaseConnection);
+app.use('/user', userRoutes);
+
+try {
+    app.listen(process.env.SERVER_PORT || 5000, () => {
+        const port = process.env.SERVER_PORT || 5000;
+        console.log(`Server running on port ${port}`);
+    });
+} catch (error) {
+    console.error('Error while starting server: ', error);
+}
+
+module.exports = app;
