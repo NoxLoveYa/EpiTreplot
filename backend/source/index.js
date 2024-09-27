@@ -12,7 +12,8 @@ app.use((req, res, next) => {
     next();
 });
 
-const databaseConnection = new DataBaseConnection().connect();
+const databaseConnection = new DataBaseConnection();
+databaseConnection.connect();
 const userRoutes = require('./Routes/UserRoutes')(databaseConnection);
 app.use('/user', userRoutes);
 
