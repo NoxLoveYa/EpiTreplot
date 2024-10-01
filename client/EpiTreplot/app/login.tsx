@@ -1,14 +1,10 @@
-import { StyleSheet } from 'react-native';
 import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedText } from '@/components/ThemedText';
 
-export default function HomeScreen() {
+export default function LoginScreen() {
     return (
         <ThemedBackground>
-            <ThemedText>Lol t sur le home gros malin</ThemedText>
+            <ThemedText>Connecte toi gros malin</ThemedText>
         </ThemedBackground>
     );
 }
-
-const styles = StyleSheet.create({
-});
