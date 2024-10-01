@@ -16,8 +16,8 @@ class UserRepository {
     }
 
     async create(user) {
-        const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-        const values = [user.username, user.email, user.password];
+        const sql = 'INSERT INTO users (name, surname, display_name, avatar, email, password) VALUES (?, ?, ?, ?, ?, ?)';
+        const values = [user.username, user.surname, user.displayName, user.avatar, user.email, user.password];
         const result = await this.pool.execute(sql, values);
         return result;
     }

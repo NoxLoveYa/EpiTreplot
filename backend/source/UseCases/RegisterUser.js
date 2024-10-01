@@ -6,9 +6,9 @@ class RegisterUser {
         this.authService = authService;
     }
 
-    async execute({ username, email, password }) {
-        if (!username || !email || !password) {
-            throw new Error('Username, email, and password are required');
+    async execute({ username, surname, displayName, avatar, email, password }) {
+        if (!username || !surname || !displayName || !email || !password) {
+            throw new Error('Username, Surname, DisplayName, email, and password are required');
         }
         const usernameExist = await this.userRepository.findByUsername(username);
         if (usernameExist) {
@@ -20,7 +20,7 @@ class RegisterUser {
             throw new Error('Email already exists');
         }
         const hashedPassword = await this.authService.hashPassword(password);
-        const user = new User({ username, email, password: hashedPassword });
+        const user = new User({ username, surname, displayName, avatar, email, password: hashedPassword });
         const response = await this.userRepository.create(user);
         user.id = response[0].insertId;
         return this.authService.generateToken({ id: user.id, username: user.username });
