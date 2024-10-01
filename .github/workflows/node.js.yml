@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -31,8 +31,3 @@ jobs:
         with:
           target_repo_url: ${{ secrets.MIRROR_URL }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Test
-        run: |
-          echo "Test"
-          echo ${{ secrets.MIRROR_URL }}
-          echo ${{ secrets.SSH_PRIVATE_KEY }}
