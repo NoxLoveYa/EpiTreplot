@@ -8,6 +8,12 @@ class ListRepository {
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows[0] : null;
     }
+
+    async createList(title, description, workspaceId) {
+        const query = 'call epitreplot.list_insert(?, ?, ?)';
+        const [rows] = await this.pool.execute(query, [title, description, workspaceId]);
+        return rows.length ? rows[0] : null;
+    }
 }
 
 module.exports = ListRepository;

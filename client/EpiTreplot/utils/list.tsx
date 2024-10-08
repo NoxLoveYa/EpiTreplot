@@ -1,24 +1,5 @@
 import { List } from "@/components/ThemedCardList";
 
-export async function listSelect(workspaceId: number) {
-    try {
-        const response = await fetch(`http://localhost:5000/list/select`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json',
-            },
-            body: JSON.stringify({
-                workspaceId
-            })
-        });
-        return await response.json();
-    } catch (error) {
-        console.error('Fetch error:', error);
-        return error;
-    }
-}
-
 // A function to map the response into a List[] structure
 export function mapToLists(response: any[]): List[] {
     const listMap: { [key: number]: List } = {};
@@ -48,4 +29,44 @@ export function mapToLists(response: any[]): List[] {
 
     // Convert the object back into an array of List
     return Object.values(listMap);
+}
+
+export async function listSelect(workspaceId: number) {
+    try {
+        const response = await fetch(`http://localhost:5000/list/select`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+            },
+            body: JSON.stringify({
+                workspaceId
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return error;
+    }
+}
+
+export async function listInsert(title: string, description: string, workspaceId: number) {
+    try {
+        const response = await fetch(`http://localhost:5000/list/insert`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                workspaceId
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return error;
+    }
 }
