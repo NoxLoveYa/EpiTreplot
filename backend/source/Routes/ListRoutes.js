@@ -15,7 +15,7 @@ module.exports = (dbConnection) => {
         res.json({ message: 'Test route' });
     });
 
-    router.get('/select', (req, res) => listController.getListByWorkspaceId(req, res));
+    router.post('/select', (req, res) => listController.getListByWorkspaceId(req, res));
 
     return router;
 };

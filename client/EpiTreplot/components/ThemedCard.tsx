@@ -15,7 +15,7 @@ export function ThemedCard({ style, lightColor, darkColor, title,...otherProps }
 
     const styles = StyleSheet.create({
         container: {
-            width: 150,
+            alignSelf: 'stretch',
             borderColor,
             borderWidth: 1,
             backgroundColor

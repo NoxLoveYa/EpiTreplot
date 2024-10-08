@@ -30,6 +30,7 @@ export function ThemedCardList({ style, lightColor, darkColor, title, ...otherPr
     const styles = StyleSheet.create({
         container: {
             display: 'flex',
+            width: 175,
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
             padding: 10,

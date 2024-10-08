@@ -1,5 +1,5 @@
+import { useState, useEffect } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -10,6 +10,8 @@ import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedButtonProps } from '@/components/ThemedButon';
 import { ThemedCardList, List, Card } from '@/components/ThemedCardList';
 import { ThemedCard } from '@/components/ThemedCard';
+
+import { listSelect, mapToLists } from '@/utils/list';
 
 function newCard(listId: number, title = "", description = ""): Card {
     return {
@@ -28,11 +30,9 @@ function newList(workspaceId: number, title = "", description = "", cards: Array
     }
 }
 
-function AnotherListButton({ style, lightColor, darkColor, title = "", ...otherProps }: ThemedButtonProps) {
+function AnotherListButton({ style, lightColor, darkColor, title = "", size = 28, ...otherProps }: ThemedButtonProps & { size?: number}) {
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor}, 'tint') + '35'
     const color = useThemeColor({ light: lightColor, dark: darkColor}, 'tint')
-
-    const size = 28
 
     const styles = StyleSheet.create({
         container: {
@@ -46,7 +46,9 @@ function AnotherListButton({ style, lightColor, darkColor, title = "", ...otherP
             padding: 5,
             userSelect: 'none',
             backgroundColor,
-            color
+            color,
+            //@ts-ignore
+            ...style?.container
         },
         label: {
             fontWeight: 'bold',
@@ -57,9 +59,13 @@ function AnotherListButton({ style, lightColor, darkColor, title = "", ...otherP
     })
 
     return (
-        <Pressable style={styles.container} {...otherProps}>
-            <MaterialCommunityIcons size={size} name={'plus-box'} style={{color}}/>
-            <ThemedText style={styles.label}>{title}</ThemedText>
+        // @ts-ignore
+        <Pressable style={ [styles.container, style?.container] } {...otherProps}>
+            <MaterialCommunityIcons size={size} name={'plus'} style={{color}}/>
+            <ThemedText
+                // @ts-ignore
+                style={ [styles.label, style?.label] }
+            >{title}</ThemedText>
         </Pressable>
     )
 }
@@ -73,13 +79,23 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 5,
         borderStyle: 'dashed',
+        userSelect: 'none',
         // @ts-ignore
         overflow: 'auto'
     }
 })
 
 export default function HomeScreen() {
-    const [cardsList, setCardsList] = useState<Array<List>>([newList(0, 'Backlog', '', [newCard(0, 'Card 1', 'Description 1')])]);
+    const [cardsList, setCardsList] = useState<List[]>([]);
+
+    async function fetchLists() {
+        const lists = await listSelect(2);
+        setCardsList(mapToLists(lists.lists));
+    }
+
+    useEffect(() => {
+        fetchLists();
+    }, []);
 
     function addList() {
         setCardsList([...cardsList, newList(cardsList.length, 'New List', '', [newCard(cardsList.length, 'New Card', 'Description')])]);
@@ -96,6 +112,13 @@ export default function HomeScreen() {
                                     <ThemedCard key={index} title={card.title}/>
                                 );
                             })}
+                            <AnotherListButton
+                                title={'Add another card'}
+                                // @ts-ignore
+                                style={{container: {padding: 0, backgroundColor: 'transparent'}, label: {padding: 0}}}
+                                size={23}
+                                onPress={() => {}}
+                            />
                         </ThemedCardList>
                     );
                 })}
