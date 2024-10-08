@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderStyle: 'dashed',
         // @ts-ignore
-        overflow: 'auto',
+        overflow: 'auto'
     }
 })
 

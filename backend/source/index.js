@@ -14,8 +14,12 @@ app.use((req, res, next) => {
 
 const databaseConnection = new DataBaseConnection();
 databaseConnection.connect();
+
 const userRoutes = require('./Routes/UserRoutes')(databaseConnection);
 app.use('/user', userRoutes);
+
+const listRoutes = require('./Routes/ListRoutes')(databaseConnection);
+app.use('/list', listRoutes);
 
 try {
     app.listen(process.env.SERVER_PORT || 5000, () => {
