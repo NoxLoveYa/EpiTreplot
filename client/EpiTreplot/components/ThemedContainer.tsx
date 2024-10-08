@@ -22,7 +22,6 @@ export function ThemedContainer({ style, lightColor, darkColor, border, dropShad
             alignItems: 'center',
             justifyContent: 'center',
             padding: 15,
-            borderRadius: 15,
             gap: 15,
             color,
             backgroundColor,
