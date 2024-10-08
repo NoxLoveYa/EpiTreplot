@@ -11,7 +11,7 @@ export type ThemedContainerProps = ViewProps & {
 
 export function ThemedContainer({ style, lightColor, darkColor, border, dropShadow, ...otherProps }: ThemedContainerProps) {
 
-    const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+    const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'containerBackground');
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
     const tintColor = useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
 

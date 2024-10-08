@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         gap: 5,
         padding: 0,
         margin: 0,
+        backgroundColor: 'transparent'
     },
     loginContainer: {
         display: 'flex',
@@ -29,7 +30,8 @@ const styles = StyleSheet.create({
         width: width,
         gap: 15,
         padding: 0,
-        margin: 0
+        margin: 0,
+        backgroundColor: 'transparent'
     },
     separator: {
         marginTop: 25,
