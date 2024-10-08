@@ -32,8 +32,6 @@ export default function RootLayout() {
     return null;
   }
 
-  console.log(localStorage.getItem('EpiTreplotToken')); 
-
   if (!localStorage.getItem('EpiTreplotToken')) {
     return (
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

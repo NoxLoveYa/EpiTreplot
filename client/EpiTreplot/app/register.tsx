@@ -40,13 +40,15 @@ const styles = StyleSheet.create({
         textWrap: 'nowrap',
         fontWeight: 'bold',
         color: '#ff1900'
-    },
+    }
 });
 
 export default function LoginScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+
+    const navigation = useNavigation();
 
     async function onPress() {
         const response = await userLogin(username, password);

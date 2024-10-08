@@ -30,7 +30,7 @@ export function ThemedButton({ style, lightColor, darkColor, title, ...otherProp
             justifyContent: 'center',
             alignSelf: 'stretch',
             padding: 4.5,
-            borderRadius: 10,
+            borderRadius: 0,
             color,
             backgroundColor: isPressed ? backgroundColor : tintColor + '30', // Change background on hover
             borderStyle: 'solid',
