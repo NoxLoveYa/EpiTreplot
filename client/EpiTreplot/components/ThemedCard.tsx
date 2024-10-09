@@ -4,8 +4,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-import { ThemedText } from './ThemedText';
 import { ThemedView, ThemedViewProps } from './ThemedView';
+
+import { cardUpdate } from '@/utils/card';
+
 export type ThemedCardProps = ThemedViewProps & {
     card: Card;
 };
@@ -26,7 +28,9 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
     const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'fieldBorderColour');
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
     const iconColor = useThemeColor({ light: lightColor, dark: darkColor }, 'tint') + 'AA';
-    const iconBackgroundColor = penHovered ? iconColor : 'transparent';
+    const iconBackgroundColor = penHovered || editToggled ? iconColor : 'transparent';
+
+    const mouseCursor = editToggled ? 'text' : 'default';
 
 
     const styles = StyleSheet.create({
@@ -46,6 +50,8 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
             //@ts-ignore
             outlineStyle: 'none',
             flex: 1,
+            //@ts-ignore
+            cursor: mouseCursor,
             color
         },
         edit:{
@@ -65,12 +71,12 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
     function onSave() {
         if (title == card.title)
             return;
-        // TODO: Call API with title
+        cardUpdate(card.id, title, card.description, card.listId);
     }
 
     return (
         <ThemedView style={styles.container}>
-            <TextInput style={styles.text} value={title} onChangeText={onTitleEdit} onBlur={onSave}>
+            <TextInput style={styles.text} value={title} onChangeText={onTitleEdit} onBlur={onSave} editable={editToggled} selectTextOnFocus={false}>
             </TextInput>
             <ThemedView style={styles.edit}>
                 <Pressable 
@@ -81,10 +87,10 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
                         setPenHovered(false);
                     }}
                     onPress={() => {
-                        setEditToggled(!editToggled)
+                        setEditToggled(!editToggled);
                     }}
                 >
-                    <MaterialCommunityIcons name={'pen'} color={penHovered ? backgroundColor : iconColor} size={20}/>
+                    <MaterialCommunityIcons name={'pen'} color={penHovered || editToggled ? backgroundColor : iconColor} size={20}/>
                 </Pressable>
             </ThemedView>
         </ThemedView>

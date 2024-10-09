@@ -21,7 +21,7 @@ export async function cardInsert(title: string, description: string | null, list
     }
 }
 
-export async function cardUpdate(id: number, title: string, description: string | null, listId: number) {
+export async function cardUpdate(id: number, title: string, description: string | undefined, listId: number) {
     try {
         const response = await fetch(`http://localhost:5000/card/update`, {
             method: "POST",
