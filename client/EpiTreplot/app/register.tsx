@@ -10,6 +10,8 @@ import { ThemedButton } from '@/components/ThemedButon';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { userRegister } from '@/utils/user';
+
 const width = '17em'
 
 const styles = StyleSheet.create({
@@ -53,6 +55,13 @@ export default function RegisterScreen() {
     const navigation = useNavigation();
 
     async function onRegisterPress() {
+        const token = (await userRegister(username, email, password));
+        
+        if (token?.error) {
+            setErrorMessage(token.error);
+            return;
+        }
+        localStorage.setItem('EpiTreplotToken', token.token);
         window.location.reload();
     }
 
@@ -71,7 +80,7 @@ export default function RegisterScreen() {
             
             <ThemedContainer style={styles.RegisterContainer}>
                 <ThemedField key={"username"} field={"Username"} value={username} type={'username'} onChange={(value) => {setUsername(value); setErrorMessage("")}}/>
-                <ThemedField key={"email"} field={"Email"} value={username} type={'email'} onChange={(value) => {setEmail(value); setErrorMessage("")}}/>
+                <ThemedField key={"email"} field={"Email"} value={email} type={'email'} onChange={(value) => {setEmail(value); setErrorMessage("")}}/>
                 <ThemedField key={"password"} field={"Password"} value={password} type={'password'} onChange={(value) => {setPassword(value); setErrorMessage("")}}/>
                 {errorMessage.length > 0 && <ThemedText style={styles.error} onPress={()=>{setErrorMessage("")}}>{errorMessage}</ThemedText>}
                 <ThemedButton title='Register' onPress={onRegisterPress}/>
