@@ -1,4 +1,4 @@
-import { Card } from "@/components/ThemedCardList";
+import { Card } from "@/components/ThemedCard";
 
 export async function cardInsert(title: string, description: string | null, listId: number) {
     try {

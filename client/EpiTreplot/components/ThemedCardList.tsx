@@ -3,12 +3,7 @@ import { StyleSheet, View, type ViewProps } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedText } from './ThemedText';
 
-export type Card = {
-    id: number;
-    title: string;
-    description?: string;
-    listId: number;
-}
+import { Card } from './ThemedCard';
 
 export type List = {
     id: number;
@@ -32,7 +27,7 @@ export function ThemedCardList({ style, lightColor, darkColor, title, ...otherPr
     const styles = StyleSheet.create({
         container: {
             display: 'flex',
-            width: 175,
+            width: 300,
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
             padding: 10,

@@ -58,6 +58,7 @@ export function ThemedField({ style, lightColor, darkColor, field, value, onChan
       color,
       borderRadius: 10,
       backgroundColor: fieldBackgroundColor,
+      //@ts-ignore
       outlineStyle: 'none'
     },
   });

@@ -8,8 +8,8 @@ import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedButtonProps } from '@/components/ThemedButon';
-import { ThemedCardList, List, Card } from '@/components/ThemedCardList';
-import { ThemedCard } from '@/components/ThemedCard';
+import { ThemedCardList, List } from '@/components/ThemedCardList';
+import { ThemedCard, Card } from '@/components/ThemedCard';
 
 import { mapToLists, listSelect, listInsert } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
@@ -114,7 +114,7 @@ export default function HomeScreen() {
                         <ThemedCardList key={index} title={list.title}>
                             {list.cards.map((card, index) => {
                                 return (
-                                    <ThemedCard key={index} title={card.title}/>
+                                    <ThemedCard key={index} card={card}/>
                                 );
                             })}
                             <AnotherListButton
