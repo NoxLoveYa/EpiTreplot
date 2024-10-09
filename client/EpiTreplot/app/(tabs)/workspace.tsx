@@ -11,7 +11,7 @@ import { ThemedButtonProps } from '@/components/ThemedButon';
 import { ThemedCardList, List, Card } from '@/components/ThemedCardList';
 import { ThemedCard } from '@/components/ThemedCard';
 
-import { listSelect, mapToLists } from '@/utils/list';
+import { mapToLists, listSelect, listInsert } from '@/utils/list';
 
 function newCard(listId: number, title = "", description = ""): Card {
     return {
@@ -97,8 +97,10 @@ export default function HomeScreen() {
         fetchLists();
     }, []);
 
-    function addList() {
-        setCardsList([...cardsList, newList(cardsList.length, 'New List', '', [newCard(cardsList.length, 'New Card', 'Description')])]);
+    async function addList() {
+        const response = (await listInsert('New List', null, 2)).list[0];
+        const formattedList: List = newList(response.workspaceId, response.title, response.description, []);
+        setCardsList([...cardsList, formattedList]);
     }
 
     return (

@@ -50,9 +50,9 @@ export async function listSelect(workspaceId: number) {
     }
 }
 
-export async function listInsert(title: string, description: string, workspaceId: number) {
+export async function listInsert(title: string, description: string | null, workspaceId: number) {
     try {
-        const response = await fetch(`http://localhost:5000/list/insert`, {
+        const response = await fetch(`http://localhost:5000/list/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
