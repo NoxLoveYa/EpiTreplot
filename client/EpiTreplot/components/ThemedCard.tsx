@@ -47,6 +47,7 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
             flexWrap: 'wrap',
             //@ts-ignore
             outlineStyle: 'none',
+            flex: 1,
             color
         },
         edit:{
