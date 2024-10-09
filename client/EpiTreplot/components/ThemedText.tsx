@@ -5,7 +5,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'text' | 'title' | 'subtitle';
+  type?: 'text' | 'title' | 'subtitle' | 'link';
 };
 
 export function ThemedText({
@@ -24,6 +24,8 @@ export function ThemedText({
         type === 'text' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
+        //@ts-ignore
+        type === 'link' ? { textDecorationLine: 'underline', textUnderlineOffset: 5 } : undefined,
         style,
       ]}
       {...rest}

@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 import LoginScreen from './login';
+import RegisterScreen from './register';
 import TabLayout from './(tabs)/_layout';
 import NotFoundScreen from './+not-found';
 
@@ -37,6 +38,7 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack.Navigator>
             <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='register' component={RegisterScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
       </ThemeProvider>
     );

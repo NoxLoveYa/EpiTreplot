@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { useState } from 'react';
 
 import { ThemedBackground } from '@/components/ThemedBackground';
@@ -50,7 +50,9 @@ export default function LoginScreen() {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    async function onPress() {
+    const navigation = useNavigation();
+
+    async function onLoginPress() {
         const response = await userLogin(username, password);
 
         if (response?.error) {
@@ -59,6 +61,11 @@ export default function LoginScreen() {
         }
         localStorage.setItem('EpiTreplotToken', response.token);
         window.location.reload();
+    }
+
+    function onSignUpPress() {
+        // @ts-ignore
+        navigation.navigate('register');
     }
 
     return (
@@ -73,7 +80,8 @@ export default function LoginScreen() {
                 <ThemedField key={"username"} field={"Username"} value={username} type={'username'} onChange={(value) => {setUsername(value); setErrorMessage("")}}/>
                 <ThemedField key={"password"} field={"Password"} value={password} type={'password'} onChange={(value) => {setPassword(value); setErrorMessage("")}}/>
                 {errorMessage.length > 0 && <ThemedText style={styles.error} onPress={()=>{setErrorMessage("")}}>{errorMessage}</ThemedText>}
-                <ThemedButton title='Login' onPress={onPress}/>
+                <ThemedButton title='Login' onPress={onLoginPress}/>
+                <ThemedText>Don't have an account yet? <Pressable onPress={onSignUpPress}><ThemedText type={'link'}>Sign up.</ThemedText></Pressable></ThemedText>
             </ThemedContainer>
         </ThemedBackground>
     );
