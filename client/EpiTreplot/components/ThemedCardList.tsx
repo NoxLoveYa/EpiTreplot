@@ -32,6 +32,7 @@ export function ThemedCardList({ style, lightColor, darkColor, title, ...otherPr
             justifyContent: 'flex-start',
             padding: 10,
             gap: 15,
+            borderRadius: 10,
             color,
             backgroundColor
         },
