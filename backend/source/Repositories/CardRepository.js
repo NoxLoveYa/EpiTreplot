@@ -8,6 +8,12 @@ class CardRepository {
         const [rows] = await this.pool.execute(query, [title, description, listId]);
         return rows.length ? rows[0] : null;
     }
+
+    async update(id, title, description, listId) {
+        const query = 'call epitreplot.card_update(?, ?, ?, ?)';
+        const [rows] = await this.pool.execute(query, [id, title, description, listId]);
+        return rows.length ? rows[0] : null;
+    }
 }
 
 module.exports = CardRepository;

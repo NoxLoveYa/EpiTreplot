@@ -43,8 +43,6 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
             backgroundColor
         },
         text: {
-            // Wrap text if too long
-            flexWrap: 'wrap',
             //@ts-ignore
             outlineStyle: 'none',
             flex: 1,
