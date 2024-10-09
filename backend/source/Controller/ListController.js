@@ -2,8 +2,6 @@ class ListController {
     constructor(selectList, createList) {
         this.selectList = selectList;
         this.createList = createList;
-        console.log('ListController -> selectList: ', selectList);
-        console.log('ListController -> createList: ', createList);
     }
 
     async getListByWorkspaceId(req, res) {
