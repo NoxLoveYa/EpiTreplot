@@ -1,15 +1,16 @@
-import { List } from "@/components/ThemedCardList";
+import { List, Card } from "@/components/ThemedCardList";
 
 // A function to map the response into a List[] structure
 export function mapToLists(response: any[]): List[] {
     const listMap: { [key: number]: List } = {};
 
     response.forEach(item => {
-        const { list_id, list_title, card_title, card_description } = item;
+        const { list_id, list_title, card_id, card_title, card_description } = item;
 
         // Check if the list already exists in the map
         if (!listMap[list_id]) {
             listMap[list_id] = {
+                id: list_id,
                 title: list_title,
                 description: "", // Assuming no description in this response
                 cards: [],
@@ -20,6 +21,7 @@ export function mapToLists(response: any[]): List[] {
         // Add the card to the list if a card exists
         if (card_title) {
             listMap[list_id].cards.push({
+                id: card_id,
                 title: card_title,
                 description: card_description,
                 listId: list_id

@@ -12,17 +12,20 @@ import { ThemedCardList, List, Card } from '@/components/ThemedCardList';
 import { ThemedCard } from '@/components/ThemedCard';
 
 import { mapToLists, listSelect, listInsert } from '@/utils/list';
+import { cardInsert } from '@/utils/card';
 
-function newCard(listId: number, title = "", description = ""): Card {
+function newCard(id: number, title = "", description = "", listId: number): Card {
     return {
+        id: id,
         title: title,
         description: description,
         listId: listId
     }
 }
 
-function newList(workspaceId: number, title = "", description = "", cards: Array<Card> = []): List {
+function newList(id: number, title = "", description = "", cards: Array<Card> = [], workspaceId: number): List {
     return {
+        id: id,
         title: title,
         description: description,
         cards: cards,
@@ -99,7 +102,7 @@ export default function HomeScreen() {
 
     async function addList() {
         const response = (await listInsert('New List', null, 2)).list[0];
-        const formattedList: List = newList(response.workspaceId, response.title, response.description, []);
+        const formattedList: List = newList(response.id, response.title, response.description, [], response.workspaceId);
         setCardsList([...cardsList, formattedList]);
     }
 
@@ -119,7 +122,20 @@ export default function HomeScreen() {
                                 // @ts-ignore
                                 style={{container: {padding: 0, backgroundColor: 'transparent'}, label: {padding: 0}}}
                                 size={23}
-                                onPress={() => {}}
+                                onPress={async () => {
+                                    const response = (await cardInsert('New Card', null, list.id)).card[0];
+                                    const formattedCard: Card = newCard(response.id, response.title, response.description, response.listId);
+                                    const updatedList = cardsList.map(item => {
+                                        if (item.id === list.id) {
+                                            return {
+                                                ...item,
+                                                cards: [...item.cards, formattedCard]
+                                            }
+                                        }
+                                        return item;
+                                    });
+                                    setCardsList(updatedList);
+                                }}
                             />
                         </ThemedCardList>
                     );

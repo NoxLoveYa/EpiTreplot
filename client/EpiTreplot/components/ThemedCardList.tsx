@@ -4,12 +4,14 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedText } from './ThemedText';
 
 export type Card = {
+    id: number;
     title: string;
     description?: string;
     listId: number;
 }
 
 export type List = {
+    id: number;
     title: string;
     description?: string;
     cards: Card[];
