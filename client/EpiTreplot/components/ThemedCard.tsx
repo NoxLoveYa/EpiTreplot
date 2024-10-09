@@ -31,8 +31,7 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
     const iconBackgroundColor = penHovered || editToggled ? iconColor : 'transparent';
 
     const mouseCursor = editToggled ? 'text' : 'default';
-
-
+    
     const styles = StyleSheet.create({
         container: {
             display: 'flex',
@@ -75,8 +74,8 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
     }
 
     return (
-        <ThemedView style={styles.container}>
-            <TextInput style={styles.text} value={title} onChangeText={onTitleEdit} onBlur={onSave} editable={editToggled} selectTextOnFocus={false}>
+        <ThemedView style={styles.container} {...otherProps}>
+            <TextInput style={styles.text} value={title} onChangeText={onTitleEdit} onBlur={onSave} readOnly={!editToggled} selectTextOnFocus={false}>
             </TextInput>
             <ThemedView style={styles.edit}>
                 <Pressable 

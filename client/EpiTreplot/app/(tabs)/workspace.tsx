@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, Modal, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -13,7 +13,6 @@ import { ThemedCard, Card } from '@/components/ThemedCard';
 
 import { mapToLists, listSelect, listInsert } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
-import { ThemedPopup } from '@/components/ThemedPopup';
 
 function newCard(id: number, title = "", description = "", listId: number): Card {
     return {
@@ -91,11 +90,18 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen() {
     const [cardsList, setCardsList] = useState<List[]>([]);
+    const [popupId, setPopupId] = useState<number>(-1);
+    const [popupVisible, setPopupVisible] = useState<boolean>(false);
 
     async function fetchLists() {
         const lists = await listSelect(2);
         setCardsList(mapToLists(lists.lists));
     }
+
+    // Remove context menu
+    // window.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault();
+    // }, false);
 
     useEffect(() => {
         fetchLists();
@@ -107,6 +113,12 @@ export default function HomeScreen() {
         setCardsList([...cardsList, formattedList]);
     }
 
+    async function cardRightClick(e: any, id: number) {
+        if (e?.button != 2)
+            return;
+        setPopupId(id);
+    }
+
     return (
         <ThemedBackground>
             <ThemedContainer style={styles.container} border={true}>
@@ -115,7 +127,7 @@ export default function HomeScreen() {
                         <ThemedCardList key={index} title={list.title}>
                             {list.cards.map((card, index) => {
                                 return (
-                                    <ThemedCard key={index} card={card}/>
+                                    <ThemedCard key={index} card={card} onPointerDown={(e) => {cardRightClick(e, card.id); }}/>
                                 );
                             })}
                             <AnotherListButton

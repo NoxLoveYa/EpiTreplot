@@ -1,25 +1,33 @@
-import { View, StyleSheet, type ViewProps } from 'react-native';
+import { View, StyleSheet, type ViewProps, DimensionValue } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
+
+export type Vector2 = {
+    x: DimensionValue,
+    y: DimensionValue
+}
 
 export type ThemedPopupProps = ViewProps & {
     lightColor?: string;
     darkColor?: string;
-    position: { x: number, y: number };
+    position: Vector2;
+    opened?: boolean;
 };
 
-export function ThemedPopup({ style, lightColor, darkColor, position, ...otherProps }: ThemedPopupProps) {
-    const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+export function ThemedPopup({ style, lightColor, darkColor, position, opened = true, ...otherProps }: ThemedPopupProps) {
+    const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'fieldBackground');
+    const display = opened ? 'flex' : 'none'
 
     const styles = StyleSheet.create({
         container: {
+            display,
             position: 'absolute',
             top: position.y,
             left: position.x,
-            backgroundColor,
             padding: 10,
             borderRadius: 5,
-            zIndex: 1
+            backgroundColor,
+            zIndex: 10
         }
     });
 
