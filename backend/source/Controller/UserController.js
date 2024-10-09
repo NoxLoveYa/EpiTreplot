@@ -16,8 +16,8 @@ class UserController {
 
     async register(req, res) {
         try {
-            const { username, surname, displayName, avatar, email, password } = req.body;
-            const token = await this.registerUser.execute({ username, surname, displayName, avatar, email, password });
+            const { username, displayName, avatar, email, password } = req.body;
+            const token = await this.registerUser.execute({ username, displayName, avatar, email, password });
             res.json({ token });
         } catch (error) {
             res.status(400).json({ error: error.message });

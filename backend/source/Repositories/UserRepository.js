@@ -16,10 +16,10 @@ class UserRepository {
     }
 
     async create(user) {
-        const sql = 'INSERT INTO users (name, surname, display_name, avatar, email, password) VALUES (?, ?, ?, ?, ?, ?)';
-        const values = [user.username, user.surname, user.displayName, user.avatar, user.email, user.password];
-        const result = await this.pool.execute(sql, values);
-        return result;
+        const sql = 'call epitreplot.users_insert(?, ?, ?, ?, ?)';
+        const values = [user.username, user.displayName, user.avatar, user.email, user.password];
+        const [rows] = await this.pool.execute(sql, values);
+        return rows.length ? rows[0] : null;
     }
 }
 
