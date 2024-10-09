@@ -124,7 +124,8 @@ export default function HomeScreen() {
                                 size={23}
                                 onPress={async () => {
                                     const response = (await cardInsert('New Card', null, list.id)).card[0];
-                                    const formattedCard: Card = newCard(response.id, response.title, response.description, response.listId);
+                                    const formattedCard: Card = newCard(response.id, response.title, response.description, response.lists_id);
+                                    console.log(formattedCard);
                                     const updatedList = cardsList.map(item => {
                                         if (item.id === list.id) {
                                             return {
