@@ -1,9 +1,10 @@
 import { StyleSheet, View, type ViewProps } from 'react-native';
+import { useState } from 'react';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { ThemedText } from './ThemedText';
 
 import { Card } from './ThemedCard';
+import { TextInput } from 'react-native-gesture-handler';
 
 export type List = {
     id: number;
@@ -20,6 +21,7 @@ export type ThemedCardListProps = ViewProps & {
 };
 
 export function ThemedCardList({ style, lightColor, darkColor, title, ...otherProps }: ThemedCardListProps) {
+    const [label, setLabel] = useState<string>(title);
 
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
@@ -36,11 +38,27 @@ export function ThemedCardList({ style, lightColor, darkColor, title, ...otherPr
             color,
             backgroundColor
         },
+        title: {
+            fontWeight: 'bold',
+            fontSize: 20,
+            color,
+            //@ts-ignore
+            outlineStyle: 'none'
+        }
     });
+
+    function onTitleEdit(title: string) {
+        setLabel(title);
+    }
+
+    function onSave() {
+        if (title == label)
+            return;
+    }
 
     return (
         <View style={ [styles.container, style] } { ...otherProps }>
-            <ThemedText type='subtitle'>{title}</ThemedText>
+            <TextInput style={styles.title} value={label} onChangeText={onTitleEdit} onBlur={onSave} autoCorrect={false}></TextInput>
             {otherProps.children}
         </View>
     );
