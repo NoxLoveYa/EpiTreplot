@@ -73,7 +73,7 @@ export async function listInsert(title: string, description: string | null, work
     }
 }
 
-export async function listUpdate(id: number, title: string, description: string)
+export async function listUpdate(id: number, title: string, description: string | undefined)
 {
     try {
         const response = await fetch(`http://localhost:5000/list/update`, {

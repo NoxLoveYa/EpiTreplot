@@ -1,10 +1,12 @@
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import { useState } from 'react';
+import { TextInput } from 'react-native-gesture-handler';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 import { Card } from './ThemedCard';
-import { TextInput } from 'react-native-gesture-handler';
+
+import { listUpdate } from '@/utils/list';
 
 export type List = {
     id: number;
@@ -18,9 +20,10 @@ export type ThemedCardListProps = ViewProps & {
     lightColor?: string;
     darkColor?: string;
     title: string;
+    list: List;
 };
 
-export function ThemedCardList({ style, lightColor, darkColor, title, ...otherProps }: ThemedCardListProps) {
+export function ThemedCardList({ style, lightColor, darkColor, title, list, ...otherProps }: ThemedCardListProps) {
     const [label, setLabel] = useState<string>(title);
 
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
@@ -54,6 +57,7 @@ export function ThemedCardList({ style, lightColor, darkColor, title, ...otherPr
     function onSave() {
         if (title == label)
             return;
+        listUpdate(list.id, label, list.description);
     }
 
     return (

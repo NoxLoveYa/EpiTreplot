@@ -124,7 +124,7 @@ export default function HomeScreen() {
             <ThemedContainer style={styles.container} border={true}>
                 {cardsList.map((list, index) => {
                     return (
-                        <ThemedCardList key={index} title={list.title}>
+                        <ThemedCardList key={index} title={list.title} list={list}>
                             {list.cards.map((card, index) => {
                                 return (
                                     <ThemedCard key={index} card={card} onPointerDown={(e) => {cardRightClick(e, card.id); }}/>
