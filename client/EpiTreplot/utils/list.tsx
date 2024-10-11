@@ -1,4 +1,4 @@
-import { List, Card } from "@/components/ThemedCardList";
+import { List } from "@/components/ThemedCardList";
 
 // A function to map the response into a List[] structure
 export function mapToLists(response: any[]): List[] {
@@ -64,6 +64,28 @@ export async function listInsert(title: string, description: string | null, work
                 title,
                 description,
                 workspaceId
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return error;
+    }
+}
+
+export async function listUpdate(id: number, title: string, description: string)
+{
+    try {
+        const response = await fetch(`http://localhost:5000/list/update`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+            },
+            body: JSON.stringify({
+                id,
+                title,
+                description
             })
         });
         return await response.json();

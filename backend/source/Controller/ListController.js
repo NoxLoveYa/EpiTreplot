@@ -1,10 +1,11 @@
 class ListController {
-    constructor(selectList, createList) {
+    constructor(selectList, createList, updateList) {
         this.selectList = selectList;
         this.createList = createList;
+        this.updateList = updateList;
     }
 
-    async getListByWorkspaceId(req, res) {
+    async GetListByWorkspaceId(req, res) {
         try {
             const { workspaceId } = req.body;
             const lists = await this.selectList.execute({ workspaceId });
@@ -14,10 +15,20 @@ class ListController {
         }
     }
 
-    async createEmptyList(req, res) {
+    async CreateList(req, res) {
         try {
             const { title, description, workspaceId } = req.body;
             const list = await this.createList.execute({ title, description, workspaceId });
+            res.json({ list });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async UpdateList(req, res) {
+        try {
+            const { id, title, description } = req.body;
+            const list = await this.updateList.execute({ id, title, description });
             res.json({ list });
         } catch (error) {
             res.status(400).json({ error: error.message });
