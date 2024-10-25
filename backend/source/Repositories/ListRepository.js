@@ -20,6 +20,12 @@ class ListRepository {
         const [rows] = await this.pool.execute(query, [id, title, description]);
         return rows.length ? rows[0] : null;
     }
+
+    async delete(id) {
+        const query = 'call epitreplot.list_delete(?)';
+        const [rows] = await this.pool.execute(query, [id]);
+        return rows.length ? rows[0] : null;
+    }
 }
 
 module.exports = ListRepository;

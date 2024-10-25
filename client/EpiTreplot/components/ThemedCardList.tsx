@@ -1,12 +1,14 @@
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import { useState } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 import { Card } from './ThemedCard';
 
-import { listUpdate } from '@/utils/list';
+import { listUpdate, listDelete } from '@/utils/list';
+import { ThemedView } from './ThemedView';
 
 export type List = {
     id: number;
@@ -28,6 +30,7 @@ export function ThemedCardList({ style, lightColor, darkColor, title, list, ...o
 
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+    const iconColor = useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
 
     const styles = StyleSheet.create({
         container: {
@@ -47,6 +50,13 @@ export function ThemedCardList({ style, lightColor, darkColor, title, list, ...o
             color,
             //@ts-ignore
             outlineStyle: 'none'
+        },
+        titleContainer: {
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 10,
+            alignItems: 'center',
+            justifyContent: 'space-between'
         }
     });
 
@@ -60,9 +70,17 @@ export function ThemedCardList({ style, lightColor, darkColor, title, list, ...o
         listUpdate(list.id, label, list.description);
     }
 
+    function onDelete() {
+        listDelete(list.id);
+    }
+
     return (
         <View style={ [styles.container, style] } { ...otherProps }>
-            <TextInput style={styles.title} value={label} onChangeText={onTitleEdit} onBlur={onSave} autoCorrect={false}></TextInput>
+            <ThemedView style={styles.titleContainer}>
+                <TextInput style={styles.title} value={label} onChangeText={onTitleEdit} onBlur={onSave} autoCorrect={false}></TextInput>
+                <MaterialCommunityIcons name='trash-can-outline' color={iconColor} size={24} style={{cursor: 'pointer'}} onPress={onDelete}/>
+            </ThemedView>
+            
             {otherProps.children}
         </View>
     );
