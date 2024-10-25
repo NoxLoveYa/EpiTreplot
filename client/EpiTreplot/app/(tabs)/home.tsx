@@ -9,7 +9,8 @@ import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedText } from '@/components/ThemedText';
 
-import { workspaceSelect, workspaceCreate } from '@/utils/workspace';
+import { userValidate } from '@/utils/user';
+import { workspaceSelect, workspaceCreate, workspaceDelete } from '@/utils/workspace';
 
 const styles = StyleSheet.create({
     container: {
@@ -35,21 +36,37 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen() {
 
+    const [user, setUser] = useState(1);
     const [workspaces, setWorkspaces] = useState([]);
     const tintColor = useThemeColor({light: Colors.light.tint, dark: Colors.dark.tint}, 'tint');
 
     async function fetchWorkspaces() {
-        const lists = await workspaceSelect(1);
+        const lists = await workspaceSelect(user);
         setWorkspaces(lists.data);
     }
 
     async function createWorkspace() {
-        const workspace = await workspaceCreate("Test Workspace", "idk", 1);
+        const workspace = await workspaceCreate("Test Workspace", "idk", user);
+        await fetchWorkspaces();
+    }
+
+    async function deleteWorkspace(id: number) {
+        await workspaceDelete(id);
         await fetchWorkspaces();
     }
 
     useEffect(() => {
-        fetchWorkspaces();
+        userValidate(localStorage.getItem('EpiTreplotToken')).then((e) => {
+            if (e.data == null) {
+                localStorage.removeItem('EpiTreplotToken');
+                window.location.reload();
+                return;
+            }
+            else {
+                setUser(e.data.id);
+                fetchWorkspaces();
+            }
+        });
     }, []);
 
     return (
@@ -64,7 +81,7 @@ export default function HomeScreen() {
                     return (
                         <ThemedContainer key={workspace.id} style={styles.labelContainer}>
                             <ThemedText type='subtitle'>{workspace.title}</ThemedText>
-                            <MaterialCommunityIcons name='trash-can' size={25} color={'red'} style={{cursor: 'pointer'}}/>
+                            <MaterialCommunityIcons name='trash-can' size={25} color={'red'} onPress={() => {deleteWorkspace(workspace.id)}} style={{cursor: 'pointer'}}/>
                         </ThemedContainer>
                     );
                 })}

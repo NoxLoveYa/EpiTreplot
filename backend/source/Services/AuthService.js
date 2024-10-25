@@ -14,6 +14,15 @@ class AuthService {
         const payload = { id: user.id, username: user.username };
         return jwt.sign(payload, 'secret_key', { expiresIn: '1h' });
     }
+
+    validateToken(token) {
+        try {
+            return jwt.verify(token.token, 'secret_key');
+        } catch (error) {
+            console.error("Token validation error:", error.message);
+            return null;
+        }
+    }
 }
 
 module.exports = AuthService;
