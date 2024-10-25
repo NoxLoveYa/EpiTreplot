@@ -9,7 +9,7 @@ import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedText } from '@/components/ThemedText';
 
-import { workspaceSelect } from '@/utils/workspace';
+import { workspaceSelect, workspaceCreate } from '@/utils/workspace';
 
 const styles = StyleSheet.create({
     container: {
@@ -43,6 +43,11 @@ export default function HomeScreen() {
         setWorkspaces(lists.data);
     }
 
+    async function createWorkspace() {
+        const workspace = await workspaceCreate("Test Workspace", "idk", 1);
+        await fetchWorkspaces();
+    }
+
     useEffect(() => {
         fetchWorkspaces();
     }, []);
@@ -52,12 +57,12 @@ export default function HomeScreen() {
             <ThemedContainer style={styles.container}>
                 <ThemedContainer style={styles.labelContainer}>
                     <ThemedText type='title'>Workspaces</ThemedText>
-                    <MaterialCommunityIcons name='plus-box' size={35} color={tintColor}></MaterialCommunityIcons>
+                    <MaterialCommunityIcons name='plus-box' size={35} color={tintColor} onPress={createWorkspace} style={{cursor: 'pointer'}}></MaterialCommunityIcons>
                 </ThemedContainer>
                 <ThemedContainer border={true} style={{width: '100%', height: 1, padding: 0, margin: 0}}></ThemedContainer>
                 {workspaces.map((workspace, index) => {
                     return (
-                        <ThemedContainer key={workspace.title} style={styles.labelContainer}>
+                        <ThemedContainer key={workspace.id} style={styles.labelContainer}>
                             <ThemedText type='subtitle'>{workspace.title}</ThemedText>
                             <MaterialCommunityIcons name='trash-can' size={25} color={'red'} style={{cursor: 'pointer'}}/>
                         </ThemedContainer>
