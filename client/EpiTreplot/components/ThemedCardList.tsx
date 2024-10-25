@@ -23,9 +23,10 @@ export type ThemedCardListProps = ViewProps & {
     darkColor?: string;
     title: string;
     list: List;
+    deleteList: (id: number) => void;
 };
 
-export function ThemedCardList({ style, lightColor, darkColor, title, list, ...otherProps }: ThemedCardListProps) {
+export function ThemedCardList({ style, lightColor, darkColor, title, list, deleteList, ...otherProps }: ThemedCardListProps) {
     const [label, setLabel] = useState<string>(title);
 
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
@@ -72,6 +73,7 @@ export function ThemedCardList({ style, lightColor, darkColor, title, list, ...o
 
     function onDelete() {
         listDelete(list.id);
+        deleteList(list.id);
     }
 
     return (

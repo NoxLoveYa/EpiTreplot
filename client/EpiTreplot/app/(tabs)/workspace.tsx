@@ -123,6 +123,10 @@ export default function HomeScreen() {
         setPopupPosition({x: e.clientX, y: e.clientY});
     }
 
+    function deleteList(id: number) {
+        setCardsList(cardsList.filter(list => list.id != id));
+    }
+
     return (
         <ThemedBackground>
             <ThemedContainer style={styles.container} border={true}>
@@ -134,7 +138,7 @@ export default function HomeScreen() {
                 />
                 {cardsList.map((list, index) => {
                     return (
-                        <ThemedCardList key={index} title={list.title} list={list} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
+                        <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
                                 return (
                                     <ThemedCard key={index} card={card}/>
