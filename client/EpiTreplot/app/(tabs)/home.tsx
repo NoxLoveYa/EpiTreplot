@@ -5,6 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';
 
+import { useNavigation } from 'expo-router';
+
 import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedText } from '@/components/ThemedText';
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen() {
 
+    const navigation = useNavigation();
     const [user, setUser] = useState(1);
     const [workspaces, setWorkspaces] = useState([]);
     const tintColor = useThemeColor({light: Colors.light.tint, dark: Colors.dark.tint}, 'tint');
@@ -81,7 +84,13 @@ export default function HomeScreen() {
                     return (
                         <ThemedContainer key={workspace.id} style={styles.labelContainer}>
                             <ThemedText type='subtitle'>{workspace.title}</ThemedText>
-                            <MaterialCommunityIcons name='trash-can' size={25} color={'red'} onPress={() => {deleteWorkspace(workspace.id)}} style={{cursor: 'pointer'}}/>
+                            <ThemedContainer style={{display: 'flex', flexDirection: 'row'}}>
+                                <MaterialCommunityIcons name='arrow-right-bold-box' size={25} color={tintColor} onPress={() => {
+                                        localStorage.setItem('EpiTreplotWorkspace', workspace.id.toString());
+                                        navigation.navigate('Workspace');
+                                    }} style={{cursor: 'pointer'}}/>
+                                <MaterialCommunityIcons name='trash-can' size={25} color={'red'} onPress={() => {deleteWorkspace(workspace.id)}} style={{cursor: 'pointer'}}/>
+                            </ThemedContainer>
                         </ThemedContainer>
                     );
                 })}

@@ -76,6 +76,10 @@ function AnotherListButton({ style, lightColor, darkColor, title = "", size = 28
     )
 }
 
+function getWorkspaceId() {
+    return parseInt(localStorage.getItem('EpiTreplotWorkspace'));
+}
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
@@ -100,7 +104,7 @@ export default function WorkspaceScreen() {
     const tintColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, 'tint');
 
     async function fetchLists() {
-        const lists = await listSelect(2);
+        const lists = await listSelect(getWorkspaceId());
         setCardsList(mapToLists(lists.lists));
     }
 
@@ -109,12 +113,18 @@ export default function WorkspaceScreen() {
         e.preventDefault();
     }, true);
 
+    // Correct one to fix later
     useEffect(() => {
         fetchLists();
     }, []);
 
+    // useEffect(() => {
+    //     setWorkspaceId(localStorage.getItem('EpiTreplotWorkspace') ? parseInt(localStorage.getItem('EpiTreplotWorkspace')!) : 2);
+    //     fetchLists();
+    // });
+
     async function addList() {
-        const response = (await listInsert('New List', null, 2)).list[0];
+        const response = (await listInsert('New List', null, getWorkspaceId())).list[0];
         const formattedList: List = newList(response.id, response.title, response.description, [], response.workspaceId);
         setCardsList([...cardsList, formattedList]);
     }
