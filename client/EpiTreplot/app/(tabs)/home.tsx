@@ -35,10 +35,16 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen() {
 
+    const [workspaces, setWorkspaces] = useState([]);
     const tintColor = useThemeColor({light: Colors.light.tint, dark: Colors.dark.tint}, 'tint');
 
+    async function fetchWorkspaces() {
+        const lists = await workspaceSelect(1);
+        setWorkspaces(lists.data);
+    }
+
     useEffect(() => {
-        workspaceSelect(1);
+        fetchWorkspaces();
     }, []);
 
     return (
@@ -49,8 +55,14 @@ export default function HomeScreen() {
                     <MaterialCommunityIcons name='plus-box' size={35} color={tintColor}></MaterialCommunityIcons>
                 </ThemedContainer>
                 <ThemedContainer border={true} style={{width: '100%', height: 1, padding: 0, margin: 0}}></ThemedContainer>
-                <ThemedContainer>
-                </ThemedContainer>
+                {workspaces.map((workspace, index) => {
+                    return (
+                        <ThemedContainer key={workspace.title} style={styles.labelContainer}>
+                            <ThemedText type='subtitle'>{workspace.title}</ThemedText>
+                            <MaterialCommunityIcons name='trash-can' size={25} color={'red'} style={{cursor: 'pointer'}}/>
+                        </ThemedContainer>
+                    );
+                })}
             </ThemedContainer>
         </ThemedBackground>
     )
