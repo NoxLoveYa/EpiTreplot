@@ -5,6 +5,7 @@ const SelectList = require('../UseCases/SelectList');
 const CreateList = require('../UseCases/CreateList');
 const UpdateList = require('../UseCases/UpdateList');
 const DeleteList = require('../UseCases/DeleteList');
+const DuplicateList = require('../UseCases/DuplicateList');
 const ListController = require('../Controller/ListController');
 
 module.exports = (dbConnection) => {
@@ -15,7 +16,8 @@ module.exports = (dbConnection) => {
     const createList = new CreateList(listRepository);
     const updateList = new UpdateList(listRepository);
     const deleteList = new DeleteList(listRepository);
-    const listController = new ListController(selectList, createList, updateList, deleteList);
+    const duplicateList = new DuplicateList(listRepository);
+    const listController = new ListController(selectList, createList, updateList, deleteList, duplicateList);
 
     router.get('/test', (req, res) => {
         res.json({ message: 'Test route' });
@@ -25,6 +27,7 @@ module.exports = (dbConnection) => {
     router.post('/create', (req, res) => listController.CreateList(req, res));
     router.post('/update', (req, res) => listController.UpdateList(req, res));
     router.post('/delete', (req, res) => listController.DeleteList(req, res));
+    router.post('/duplicate', (req, res) => listController.DuplicateList(req, res));
 
     return router;
 };

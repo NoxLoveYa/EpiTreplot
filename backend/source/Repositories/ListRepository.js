@@ -26,6 +26,12 @@ class ListRepository {
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows[0] : null;
     }
+
+    async duplicate(id) {
+        const query = 'call epitreplot.list_duplicate(?)';
+        const [rows] = await this.pool.execute(query, [id]);
+        return rows.length ? rows[0] : null;
+    }
 }
 
 module.exports = ListRepository;

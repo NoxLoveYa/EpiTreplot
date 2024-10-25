@@ -3,6 +3,7 @@ import { Pressable, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
 
 import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedText } from '@/components/ThemedText';
@@ -11,6 +12,7 @@ import { ThemedButtonProps } from '@/components/ThemedButon';
 import { ThemedCardList, List } from '@/components/ThemedCardList';
 import { ThemedCard, Card } from '@/components/ThemedCard';
 import { ThemedPopup } from '@/components/ThemedPopup';
+import { ThemedView } from '@/components/ThemedView';
 
 import { mapToLists, listSelect, listInsert } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
@@ -95,6 +97,8 @@ export default function HomeScreen() {
     const [popupVisible, setPopupVisible] = useState<boolean>(false);
     const [popupPosition, setPopupPosition] = useState({x: 0, y: 0});
 
+    const tintColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, 'tint');
+
     async function fetchLists() {
         const lists = await listSelect(2);
         setCardsList(mapToLists(lists.lists));
@@ -127,6 +131,8 @@ export default function HomeScreen() {
         setCardsList(cardsList.filter(list => list.id != id));
     }
 
+    
+
     return (
         <ThemedBackground>
             <ThemedContainer style={styles.container} border={true}>
@@ -135,7 +141,12 @@ export default function HomeScreen() {
                     opened={popupVisible}
                     onRequestClose={() => setPopupVisible(false)}
                     onPointerDown={() => setPopupVisible(false)}
-                />
+                >
+                    <ThemedView style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
+                        <ThemedText>Duplicate</ThemedText>
+                        <MaterialCommunityIcons size={20} name={'content-duplicate'} color={tintColor} style={{marginTop: 2}}/>
+                    </ThemedView>
+                </ThemedPopup>
                 {cardsList.map((list, index) => {
                     return (
                         <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
