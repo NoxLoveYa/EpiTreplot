@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default function HomeScreen() {
+export default function WorkspaceScreen() {
     const [cardsList, setCardsList] = useState<List[]>([]);
     const [popupId, setPopupId] = useState<number>(-1);
     const [popupVisible, setPopupVisible] = useState<boolean>(false);
