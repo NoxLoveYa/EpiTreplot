@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './workspace'; // Assuming you have a home screen
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 

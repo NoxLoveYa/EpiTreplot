@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Pressable, Modal, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -10,6 +10,7 @@ import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedButtonProps } from '@/components/ThemedButon';
 import { ThemedCardList, List } from '@/components/ThemedCardList';
 import { ThemedCard, Card } from '@/components/ThemedCard';
+import { ThemedPopup } from '@/components/ThemedPopup';
 
 import { mapToLists, listSelect, listInsert } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
@@ -92,6 +93,7 @@ export default function HomeScreen() {
     const [cardsList, setCardsList] = useState<List[]>([]);
     const [popupId, setPopupId] = useState<number>(-1);
     const [popupVisible, setPopupVisible] = useState<boolean>(false);
+    const [popupPosition, setPopupPosition] = useState({x: 0, y: 0});
 
     async function fetchLists() {
         const lists = await listSelect(2);
@@ -99,9 +101,9 @@ export default function HomeScreen() {
     }
 
     // Remove context menu
-    // window.addEventListener('contextmenu', function (e) {
-    //     e.preventDefault();
-    // }, false);
+    window.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    }, true);
 
     useEffect(() => {
         fetchLists();
@@ -117,17 +119,25 @@ export default function HomeScreen() {
         if (e?.button != 2)
             return;
         setPopupId(id);
+        setPopupVisible(!popupVisible);
+        setPopupPosition({x: e.clientX, y: e.clientY});
     }
 
     return (
         <ThemedBackground>
             <ThemedContainer style={styles.container} border={true}>
+                <ThemedPopup
+                    position={popupPosition}
+                    opened={popupVisible}
+                    onRequestClose={() => setPopupVisible(false)}
+                    onPointerDown={() => setPopupVisible(false)}
+                />
                 {cardsList.map((list, index) => {
                     return (
-                        <ThemedCardList key={index} title={list.title} list={list}>
+                        <ThemedCardList key={index} title={list.title} list={list} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
                                 return (
-                                    <ThemedCard key={index} card={card} onPointerDown={(e) => {cardRightClick(e, card.id); }}/>
+                                    <ThemedCard key={index} card={card}/>
                                 );
                             })}
                             <AnotherListButton
