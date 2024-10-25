@@ -14,7 +14,7 @@ import { ThemedCard, Card } from '@/components/ThemedCard';
 import { ThemedPopup } from '@/components/ThemedPopup';
 import { ThemedView } from '@/components/ThemedView';
 
-import { mapToLists, listSelect, listInsert } from '@/utils/list';
+import { mapToLists, listSelect, listInsert, listDuplicate } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
 
 function newCard(id: number, title = "", description = "", listId: number): Card {
@@ -131,7 +131,14 @@ export default function HomeScreen() {
         setCardsList(cardsList.filter(list => list.id != id));
     }
 
-    
+    async function duplicateList(id: number) {
+        const list = cardsList.find(list => list.id === id);
+        console.log(list);
+        if (!list)
+            return;
+        await listDuplicate(list.id);
+        fetchLists();
+    }
 
     return (
         <ThemedBackground>
@@ -142,7 +149,12 @@ export default function HomeScreen() {
                     onRequestClose={() => setPopupVisible(false)}
                     onPointerDown={() => setPopupVisible(false)}
                 >
-                    <ThemedView style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
+                    <ThemedView onPointerDown={
+                    (e) => {
+                        if (e.button != 0)
+                            return;
+                        duplicateList(popupId);
+                    }} style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
                         <ThemedText>Duplicate</ThemedText>
                         <MaterialCommunityIcons size={20} name={'content-duplicate'} color={tintColor} style={{marginTop: 2}}/>
                     </ThemedView>
