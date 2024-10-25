@@ -8,7 +8,8 @@ import { Colors } from '@/constants/Colors';
 import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+
+import { workspaceSelect } from '@/utils/workspace';
 
 const styles = StyleSheet.create({
     container: {
@@ -34,7 +35,11 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen() {
 
-    const tintColor = useThemeColor({light: Colors.light.tint, dark: Colors.dark.tint}, 'tint')
+    const tintColor = useThemeColor({light: Colors.light.tint, dark: Colors.dark.tint}, 'tint');
+
+    useEffect(() => {
+        workspaceSelect(1);
+    }, []);
 
     return (
         <ThemedBackground>

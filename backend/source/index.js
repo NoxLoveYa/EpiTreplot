@@ -18,6 +18,9 @@ databaseConnection.connect();
 const userRoutes = require('./Routes/UserRoutes')(databaseConnection);
 app.use('/user', userRoutes);
 
+const workspaceRoutes = require('./Routes/WorkspaceRoute')(databaseConnection)
+app.use('/workspace', workspaceRoutes);
+
 const cardRoutes = require('./Routes/CardRoutes')(databaseConnection);
 app.use('/card', cardRoutes);
 
