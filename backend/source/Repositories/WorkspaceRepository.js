@@ -20,6 +20,12 @@ class WorkspaceRepository {
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows[0] : null;
     }
+
+    async update(id, title, description) {
+        const query = 'CALL epitreplot.workspace_update(?, ?)';
+        const [rows] = await this.pool.execute(query, [id, title]);
+        return rows.length ? rows[0] : null;
+    }
 }
 
 module.exports = WorkspaceRepository;

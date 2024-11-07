@@ -12,7 +12,8 @@ import { ThemedContainer } from '@/components/ThemedContainer';
 import { ThemedText } from '@/components/ThemedText';
 
 import { userValidate } from '@/utils/user';
-import { workspaceSelect, workspaceCreate, workspaceDelete } from '@/utils/workspace';
+import { workspaceSelect, workspaceCreate, workspaceDelete, workspaceUpdate } from '@/utils/workspace';
+import { TextInput } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
     container: {
@@ -34,12 +35,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    textInput: {
+        width: '100%',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'grey'
+    }
 });
 
 export default function HomeScreen() {
 
     const navigation = useNavigation();
-    const [user, setUser] = useState(1);
+    const [user, setUser] = useState(0);
     const [workspaces, setWorkspaces] = useState([]);
     const tintColor = useThemeColor({light: Colors.light.tint, dark: Colors.dark.tint}, 'tint');
 
@@ -67,10 +74,15 @@ export default function HomeScreen() {
             }
             else {
                 setUser(e.data.id);
-                fetchWorkspaces();
             }
         });
     }, []);
+
+    useEffect(() => {
+        if (user == 0)
+            return;
+        fetchWorkspaces();
+    }, [user]);
 
     return (
         <ThemedBackground>
@@ -83,7 +95,7 @@ export default function HomeScreen() {
                 {workspaces.map((workspace, index) => {
                     return (
                         <ThemedContainer key={workspace.id} style={styles.labelContainer}>
-                            <ThemedText type='subtitle'>{workspace.title}</ThemedText>
+                            <TextInput style={styles.textInput} defaultValue={workspace.title} onChangeText={(text) => { workspace.title = text }} onBlur={() => {workspaceUpdate(workspace.id, workspace.title)}}></TextInput>
                             <ThemedContainer style={{display: 'flex', flexDirection: 'row'}}>
                                 <MaterialCommunityIcons name='arrow-right-bold-box' size={25} color={tintColor} onPress={() => {
                                         localStorage.setItem('EpiTreplotWorkspace', workspace.id.toString());

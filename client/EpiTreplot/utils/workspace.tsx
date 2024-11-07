@@ -56,3 +56,24 @@ export async function workspaceDelete(id: number) {
         return error;
     }
 }
+
+export async function workspaceUpdate(id: number, title: string, description: string) {
+    try {
+        const response = await fetch(`http://localhost:5000/workspace/update`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+            },
+            body: JSON.stringify({
+                id,
+                title,
+                description
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return error;
+    }
+}
