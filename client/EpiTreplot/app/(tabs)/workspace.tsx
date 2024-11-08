@@ -4,11 +4,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';
+import { useNavigation } from 'expo-router';
 
 import { ThemedBackground } from '@/components/ThemedBackground';
+import { ThemedHeader } from '@/components/ThemedHeader';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedContainer } from '@/components/ThemedContainer';
-import { ThemedButtonProps } from '@/components/ThemedButon';
+import { ThemedButton, ThemedButtonProps } from '@/components/ThemedButon';
 import { ThemedCardList, List } from '@/components/ThemedCardList';
 import { ThemedCard, Card } from '@/components/ThemedCard';
 import { ThemedPopup } from '@/components/ThemedPopup';
@@ -16,6 +18,8 @@ import { ThemedView } from '@/components/ThemedView';
 
 import { mapToLists, listSelect, listInsert, listDuplicate } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
+import { ThemedGoBack } from '@/components/ThemedGoBack';
+import ThemedImage from '@/components/ThemedImage';
 
 function newCard(id: number, title = "", description = "", listId: number): Card {
     return {
@@ -83,10 +87,12 @@ function getWorkspaceId() {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        position: 'absolute',
+        top: 55,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        width: '100%',
-        height: '100%',
+        width: 'calc(100% - 10px)',
+        height: 'calc(100% - 60px)',
         borderRadius: 5,
         borderStyle: 'dashed',
         userSelect: 'none',
@@ -102,6 +108,8 @@ export default function WorkspaceScreen() {
     const [popupPosition, setPopupPosition] = useState({x: 0, y: 0});
 
     const tintColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, 'tint');
+
+    const navigation = useNavigation();
 
     async function fetchLists() {
         const lists = await listSelect(getWorkspaceId());
@@ -152,6 +160,11 @@ export default function WorkspaceScreen() {
 
     return (
         <ThemedBackground>
+            <ThemedHeader>
+                <ThemedGoBack route={'Home'}>
+                    <MaterialCommunityIcons size={30} name={'arrow-left'} color={'white'} style={{padding: 3.5, borderRadius: 5}}/>
+                </ThemedGoBack>
+            </ThemedHeader>
             <ThemedContainer style={styles.container} border={true}>
                 <ThemedPopup
                     position={popupPosition}

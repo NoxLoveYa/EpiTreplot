@@ -14,6 +14,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { userValidate } from '@/utils/user';
 import { workspaceSelect, workspaceCreate, workspaceDelete, workspaceUpdate } from '@/utils/workspace';
 import { TextInput } from 'react-native-gesture-handler';
+import { ThemedHeader } from '@/components/ThemedHeader';
+import { ThemedGoBack } from '@/components/ThemedGoBack';
 
 const styles = StyleSheet.create({
     container: {
@@ -86,6 +88,8 @@ export default function HomeScreen() {
 
     return (
         <ThemedBackground>
+            <ThemedHeader>
+            </ThemedHeader>
             <ThemedContainer style={styles.container}>
                 <ThemedContainer style={styles.labelContainer}>
                     <ThemedText type='title'>Workspaces</ThemedText>
