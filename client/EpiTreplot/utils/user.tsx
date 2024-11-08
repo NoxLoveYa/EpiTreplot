@@ -1,6 +1,6 @@
 export async function userLogin(username: string, password: string) {
     try {
-        const response = await fetch(`http://localhost:5000/user/login`, {
+        const response = await fetch(`http://localhost:5000/api/user/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export async function userLogin(username: string, password: string) {
 
 export async function userRegister(username: string, email: string, password: string) {
     try {
-        const response = await fetch(`http://localhost:5000/user/register`, {
+        const response = await fetch(`http://localhost:5000/api/user/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export async function userRegister(username: string, email: string, password: st
 
 export async function userValidate(token: string) {
     try {
-        const response = await fetch(`http://localhost:5000/user/validate`, {
+        const response = await fetch(`http://localhost:5000/api/user/validate`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

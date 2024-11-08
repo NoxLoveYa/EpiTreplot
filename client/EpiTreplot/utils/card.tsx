@@ -2,7 +2,7 @@ import { Card } from "@/components/ThemedCard";
 
 export async function cardInsert(title: string, description: string | null, listId: number) {
     try {
-        const response = await fetch(`http://localhost:5000/card/create`, {
+        const response = await fetch(`http://localhost:5000/api/card/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export async function cardInsert(title: string, description: string | null, list
 
 export async function cardUpdate(id: number, title: string, description: string | undefined, listId: number) {
     try {
-        const response = await fetch(`http://localhost:5000/card/update`, {
+        const response = await fetch(`http://localhost:5000/api/card/update`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

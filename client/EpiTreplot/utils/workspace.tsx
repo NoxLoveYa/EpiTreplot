@@ -1,6 +1,6 @@
 export async function workspaceSelect(userId: number) {
     try {
-        const response = await fetch(`http://localhost:5000/workspace/select`, {
+        const response = await fetch(`http://localhost:5000/api/workspace/select`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export async function workspaceSelect(userId: number) {
 
 export async function workspaceCreate(title: string, description: string, userId: number) {
     try {
-        const response = await fetch(`http://localhost:5000/workspace/create`, {
+        const response = await fetch(`http://localhost:5000/api/workspace/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export async function workspaceCreate(title: string, description: string, userId
 
 export async function workspaceDelete(id: number) {
     try {
-        const response = await fetch(`http://localhost:5000/workspace/delete`, {
+        const response = await fetch(`http://localhost:5000/api/workspace/delete`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export async function workspaceDelete(id: number) {
 
 export async function workspaceUpdate(id: number, title: string, description: string) {
     try {
-        const response = await fetch(`http://localhost:5000/workspace/update`, {
+        const response = await fetch(`http://localhost:5000/api/workspace/update`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
