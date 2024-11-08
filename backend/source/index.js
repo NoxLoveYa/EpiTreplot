@@ -16,16 +16,16 @@ const databaseConnection = new DataBaseConnection();
 databaseConnection.connect();
 
 const userRoutes = require('./Routes/UserRoutes')(databaseConnection);
-app.use('/user', userRoutes);
+app.use('/api/user', userRoutes);
 
 const workspaceRoutes = require('./Routes/WorkspaceRoute')(databaseConnection)
-app.use('/workspace', workspaceRoutes);
+app.use('/api/workspace', workspaceRoutes);
 
 const cardRoutes = require('./Routes/CardRoutes')(databaseConnection);
-app.use('/card', cardRoutes);
+app.use('/api/card', cardRoutes);
 
 const listRoutes = require('./Routes/ListRoutes')(databaseConnection);
-app.use('/list', listRoutes);
+app.use('/api/list', listRoutes);
 
 try {
     app.listen(process.env.SERVER_PORT || 5000, () => {
