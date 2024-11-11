@@ -1,9 +1,8 @@
-// @ts-ignore
-import { BACKEND_URI } from '@env'
+
 
 export async function userLogin(username: string, password: string) {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/user/login`, {
+        const response = await fetch(`http://localhost:5000/api/user/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +22,7 @@ export async function userLogin(username: string, password: string) {
 
 export async function userRegister(username: string, email: string, password: string) {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/user/register`, {
+        const response = await fetch(`http://localhost:5000/api/user/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ export async function userRegister(username: string, email: string, password: st
 
 export async function userValidate(token: string) {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/user/validate`, {
+        const response = await fetch(`http://localhost:5000/api/user/validate`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

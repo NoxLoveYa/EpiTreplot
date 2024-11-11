@@ -1,5 +1,4 @@
-// @ts-ignore
-import { BACKEND_URI } from '@env'
+
 
 import { List } from "@/components/ThemedCardList";
 
@@ -38,7 +37,7 @@ export function mapToLists(response: any[]): List[] {
 
 export async function listSelect(workspaceId: number) {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/list/select`, {
+        const response = await fetch(`http://localhost:5000/api/list/select`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +56,7 @@ export async function listSelect(workspaceId: number) {
 
 export async function listInsert(title: string, description: string | null, workspaceId: number) {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/list/create`, {
+        const response = await fetch(`http://localhost:5000/api/list/create`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +78,7 @@ export async function listInsert(title: string, description: string | null, work
 export async function listUpdate(id: number, title: string, description: string | undefined)
 {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/list/update`, {
+        const response = await fetch(`http://localhost:5000/api/list/update`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -101,7 +100,7 @@ export async function listUpdate(id: number, title: string, description: string 
 export async function listDelete(id: number)
 {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/list/delete`, {
+        const response = await fetch(`http://localhost:5000/api/list/delete`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -121,7 +120,7 @@ export async function listDelete(id: number)
 export async function listDuplicate(id: number)
 {
     try {
-        const response = await fetch(`${BACKEND_URI}/api/list/duplicate`, {
+        const response = await fetch(`http://localhost:5000/api/list/duplicate`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
