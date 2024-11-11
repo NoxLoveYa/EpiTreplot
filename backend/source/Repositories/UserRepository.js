@@ -16,7 +16,7 @@ class UserRepository {
     }
 
     async create(user) {
-        const sql = 'call epitreplot.users_insert(?, ?, ?, ?, ?)';
+        const sql = 'call users_insert(?, ?, ?, ?, ?)';
         const values = [user.username, user.displayName, user.avatar, user.email, user.password];
         const [rows] = await this.pool.execute(sql, values);
         return rows.length ? rows[0] : null;

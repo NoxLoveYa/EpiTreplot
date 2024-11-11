@@ -18,7 +18,7 @@ BEGIN
         SET _display_name = NULL;
     END IF;
 
-    INSERT INTO epitreplot.users (name, surname, display_name, avatar)
+    INSERT INTO users (name, surname, display_name, avatar)
     VALUES (_name, _surname, _display_name, _avatar);
 END$$
 
