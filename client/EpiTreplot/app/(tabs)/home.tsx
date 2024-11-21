@@ -105,6 +105,7 @@ export default function HomeScreen() {
                                         localStorage.setItem('EpiTreplotWorkspace', workspace.id.toString());
                                         navigation.navigate('Workspace');
                                     }} style={{cursor: 'pointer'}}/>
+                                <MaterialCommunityIcons name='share-variant' size={25} color='white' style={{cursor: 'pointer'}}/>
                                 <MaterialCommunityIcons name='trash-can' size={25} color={'red'} onPress={() => {deleteWorkspace(workspace.id)}} style={{cursor: 'pointer'}}/>
                             </ThemedContainer>
                         </ThemedContainer>
