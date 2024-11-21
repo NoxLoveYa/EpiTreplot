@@ -6,6 +6,9 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';
 import { useNavigation } from 'expo-router';
 
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback } from 'react';
+
 import { ThemedBackground } from '@/components/ThemedBackground';
 import { ThemedHeader } from '@/components/ThemedHeader';
 import { ThemedText } from '@/components/ThemedText';
@@ -122,9 +125,11 @@ export default function WorkspaceScreen() {
     }, true);
 
     // Correct one to fix later
-    useEffect(() => {
-        fetchLists();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchLists();
+        }, []) // Dependencies can include variables if needed
+    );
 
     // useEffect(() => {
     //     setWorkspaceId(localStorage.getItem('EpiTreplotWorkspace') ? parseInt(localStorage.getItem('EpiTreplotWorkspace')!) : 2);
@@ -151,7 +156,6 @@ export default function WorkspaceScreen() {
 
     async function duplicateList(id: number) {
         const list = cardsList.find(list => list.id === id);
-        console.log(list);
         if (!list)
             return;
         await listDuplicate(list.id);
@@ -161,7 +165,7 @@ export default function WorkspaceScreen() {
     return (
         <ThemedBackground>
             <ThemedHeader>
-                <ThemedGoBack route={'Home'}>
+                <ThemedGoBack route={'Home'} onClick={() => {setCardsList([])}}>
                     <MaterialCommunityIcons size={30} name={'arrow-left'} color={'white'} style={{padding: 3.5, borderRadius: 5}}/>
                 </ThemedGoBack>
             </ThemedHeader>
@@ -198,7 +202,6 @@ export default function WorkspaceScreen() {
                                 onPress={async () => {
                                     const response = (await cardInsert('New Card', null, list.id)).card[0];
                                     const formattedCard: Card = newCard(response.id, response.title, response.description, response.lists_id);
-                                    console.log(formattedCard);
                                     const updatedList = cardsList.map(item => {
                                         if (item.id === list.id) {
                                             return {

@@ -9,9 +9,10 @@ export type ThemedGoBackProps = ViewProps & {
     darkColor?: string;
     onHoverStyle?: ViewProps;
     route: string;
+    onClick?: Function;
 };
 
-export function ThemedGoBack({ style, lightColor, darkColor, onHoverStyle, route, ...otherProps }: ThemedGoBackProps) {
+export function ThemedGoBack({ style, lightColor, darkColor, onHoverStyle, route, onClick, ...otherProps }: ThemedGoBackProps) {
 
     const navigation = useNavigation();
 
@@ -28,7 +29,7 @@ export function ThemedGoBack({ style, lightColor, darkColor, onHoverStyle, route
     });
 
     return (
-        <View style={ [styles.container, hovered? onHoverStyle : style] } onPointerEnter={()=>{setHovered(true)}} onPointerLeave={()=>{setHovered(false)}} onPointerDown={(e)=>{navigation.navigate(route)}} { ...otherProps }
+        <View style={ [styles.container, hovered? onHoverStyle : style] } onPointerEnter={()=>{setHovered(true)}} onPointerLeave={()=>{setHovered(false)}} onPointerDown={(e)=>{if (onClick) {onClick()};navigation.navigate(route)}} { ...otherProps }
 
         />
     );
