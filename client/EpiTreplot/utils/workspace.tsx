@@ -61,7 +61,7 @@ export async function workspaceDelete(id: number) {
 
 export async function workspaceUpdate(id: number, title: string, description: string) {
     try {
-        const response = await fetch(`/api/workspace/update`, {
+        const response = await fetch(`http://localhost:5000/api/workspace/update`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
