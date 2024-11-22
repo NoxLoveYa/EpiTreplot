@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -15,7 +15,6 @@ import { userValidate } from '@/utils/user';
 import { workspaceSelect, workspaceCreate, workspaceDelete, workspaceUpdate } from '@/utils/workspace';
 import { TextInput } from 'react-native-gesture-handler';
 import { ThemedHeader } from '@/components/ThemedHeader';
-import { ThemedGoBack } from '@/components/ThemedGoBack';
 
 const styles = StyleSheet.create({
     container: {
@@ -89,6 +88,8 @@ export default function HomeScreen() {
     return (
         <ThemedBackground>
             <ThemedHeader>
+                <View></View>
+                <MaterialCommunityIcons name='logout-variant' size={25} color={tintColor} onPress={() => {localStorage.removeItem('EpiTreplotToken'); window.location.reload()}} style={{right: 0, cursor: 'pointer'}}/>
             </ThemedHeader>
             <ThemedContainer style={styles.container}>
                 <ThemedContainer style={styles.labelContainer}>
