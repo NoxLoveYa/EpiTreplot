@@ -18,8 +18,11 @@ databaseConnection.connect();
 const userRoutes = require('./Routes/UserRoutes')(databaseConnection);
 app.use('/api/user', userRoutes);
 
-const workspaceRoutes = require('./Routes/WorkspaceRoute')(databaseConnection)
+const workspaceRoutes = require('./Routes/WorkspaceRoute')(databaseConnection);
 app.use('/api/workspace', workspaceRoutes);
+
+const roomRoutes = require('./Routes/RoomsRoutes')(databaseConnection);
+app.use('/api/room', roomRoutes);
 
 const cardRoutes = require('./Routes/CardRoutes')(databaseConnection);
 app.use('/api/card', cardRoutes);
