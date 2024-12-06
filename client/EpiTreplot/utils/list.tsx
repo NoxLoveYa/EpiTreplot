@@ -7,14 +7,15 @@ export function mapToLists(response: any[]): List[] {
     const listMap: { [key: number]: List } = {};
 
     response.forEach(item => {
-        const { list_id, list_title, card_id, card_title, card_description } = item;
+
+        const { list_id, list_title, list_description, card_id, card_title, card_description } = item;
 
         // Check if the list already exists in the map
         if (!listMap[list_id]) {
             listMap[list_id] = {
                 id: list_id,
                 title: list_title,
-                description: "", // Assuming no description in this response
+                description: list_description, // Assuming no description in this response
                 cards: [],
                 workspaceId: 1 // Assuming you have the workspace ID somewhere
             };

@@ -102,13 +102,15 @@ const styles = StyleSheet.create({
         // @ts-ignore
         overflow: 'auto'
     }
-})
+}) 
 
 export default function WorkspaceScreen() {
     const [cardsList, setCardsList] = useState<List[]>([]);
     const [popupId, setPopupId] = useState<number>(-1);
     const [popupVisible, setPopupVisible] = useState<boolean>(false);
+    const [popupInfos, setPopupInfos] = useState<boolean>(false);
     const [popupPosition, setPopupPosition] = useState({x: 0, y: 0});
+    const [popupDescription, setPopupDescription] = useState<string>('');
 
     const tintColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, 'tint');
 
@@ -162,6 +164,16 @@ export default function WorkspaceScreen() {
         fetchLists();
     }
 
+    async function getInfos(id: number) {
+        const list = cardsList.find(list => list.id === id);
+        if (!list)
+            return;
+        console.log(list)
+        // @ts-ignore
+        setPopupDescription(list.description);
+        console.log(list.description);
+    }
+
     return (
         <ThemedBackground>
             <ThemedHeader>
@@ -180,10 +192,30 @@ export default function WorkspaceScreen() {
                     (e) => {
                         if (e.button != 0)
                             return;
+                        let list = getInfos(popupId);
+                        setPopupInfos(!popupInfos);
+                    }} style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
+                        <ThemedText>Description</ThemedText>
+                        <MaterialCommunityIcons size={20} name={'expand-all'} color={tintColor} style={{marginTop: 2, paddingLeft: 9}}/>
+                    </ThemedView>
+                    <ThemedView onPointerDown={
+                    (e) => {
+                        if (e.button != 0)
+                            return;
                         duplicateList(popupId);
                     }} style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
                         <ThemedText>Duplicate</ThemedText>
                         <MaterialCommunityIcons size={20} name={'content-duplicate'} color={tintColor} style={{marginTop: 2}}/>
+                    </ThemedView>
+                </ThemedPopup>
+                <ThemedPopup
+                    position={{x: 100, y: 100}}
+                    opened={popupInfos}
+                    onRequestClose={() => setPopupInfos(false)}
+                    onPointerDown={() => setPopupInfos(false)}
+                >
+                    <ThemedView>
+                        <ThemedText>{popupDescription}</ThemedText>
                     </ThemedView>
                 </ThemedPopup>
                 {cardsList.map((list, index) => {
