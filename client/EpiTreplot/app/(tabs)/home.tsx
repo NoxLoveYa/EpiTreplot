@@ -15,6 +15,7 @@ import { userValidate } from '@/utils/user';
 import { workspaceSelect, workspaceCreate, workspaceDelete, workspaceUpdate } from '@/utils/workspace';
 import { TextInput } from 'react-native-gesture-handler';
 import { ThemedHeader } from '@/components/ThemedHeader';
+import { ThemedView } from '@/components/ThemedView';
 
 const styles = StyleSheet.create({
     container: {
@@ -88,8 +89,11 @@ export default function HomeScreen() {
     return (
         <ThemedBackground>
             <ThemedHeader>
-                <View></View>
-                <MaterialCommunityIcons name='logout-variant' size={25} color={tintColor} onPress={() => {localStorage.removeItem('EpiTreplotToken'); window.location.reload()}} style={{right: 0, cursor: 'pointer'}}/>
+                <View/>
+                <ThemedView style={{display: 'flex', flexDirection: 'row'}}>
+                    <MaterialCommunityIcons name='face-man-profile' size={25} color={tintColor} onPress={() => {navigation.navigate("Profile")}} style={{right: 0, cursor: 'pointer'}}/>
+                    <MaterialCommunityIcons name='logout-variant' size={25} color={tintColor} onPress={() => {localStorage.removeItem('EpiTreplotToken'); window.location.reload()}} style={{right: 0, cursor: 'pointer'}}/>\
+                </ThemedView>
             </ThemedHeader>
             <ThemedContainer style={styles.container}>
                 <ThemedContainer style={styles.labelContainer}>
