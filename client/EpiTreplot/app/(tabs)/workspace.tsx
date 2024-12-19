@@ -24,6 +24,13 @@ import { cardInsert } from '@/utils/card';
 import { ThemedGoBack } from '@/components/ThemedGoBack';
 import ThemedImage from '@/components/ThemedImage';
 
+import { io, Socket } from 'socket.io-client';
+
+// Connect to your backend
+const socket = io('http://localhost:5000', {
+    transports: ['websocket'], // Force WebSocket transport
+});
+
 function newCard(id: number, title = "", description = "", listId: number): Card {
     return {
         id: id,
@@ -38,8 +45,8 @@ function newList(id: number, title = "", description = "", cards: Array<Card> = 
         id: id,
         title: title,
         description: description,
+        workspaceId: workspaceId,
         cards: cards,
-        workspaceId: workspaceId
     }
 }
 
@@ -129,19 +136,33 @@ export default function WorkspaceScreen() {
     // Correct one to fix later
     useFocusEffect(
         useCallback(() => {
+            // Emit events after connection
+            socket.emit('join-room', getWorkspaceId());
+            socket.on('listInsert', (id) => {
+                fetchLists();
+            });
+            socket.on('listUpdate', (id) => {
+                fetchLists();
+            });
+            socket.on('listDuplicate', (id) => {
+                fetchLists();
+            });
+            socket.on('listDelete', (id) => {
+                fetchLists();
+            });
+            socket.on('cardInsert', (id) => {
+                fetchLists();
+            });
             fetchLists();
         }, []) // Dependencies can include variables if needed
     );
 
-    // useEffect(() => {
-    //     setWorkspaceId(localStorage.getItem('EpiTreplotWorkspace') ? parseInt(localStorage.getItem('EpiTreplotWorkspace')!) : 2);
-    //     fetchLists();
-    // });
-
     async function addList() {
         const response = (await listInsert('New List', null, getWorkspaceId())).list[0];
-        const formattedList: List = newList(response.id, response.title, response.description, [], response.workspaceId);
-        setCardsList([...cardsList, formattedList]);
+        const formattedList: List = newList(response.id, response.title, response.description, [], response.workspaces_id);
+        console.log(formattedList);
+        socket.emit('listInsert', getWorkspaceId());
+        // setCardsList([...cardsList, formattedList]);
     }
 
     async function cardRightClick(e: any, id: number) {
@@ -161,6 +182,7 @@ export default function WorkspaceScreen() {
         if (!list)
             return;
         await listDuplicate(list.id);
+        socket.emit('listDuplicate', list.workspaceId);
         fetchLists();
     }
 
@@ -168,7 +190,6 @@ export default function WorkspaceScreen() {
         const list = cardsList.find(list => list.id === id);
         if (!list)
             return;
-        console.log(list)
         // @ts-ignore
         setPopupDescription(list.description);
         console.log(list.description);
@@ -203,6 +224,7 @@ export default function WorkspaceScreen() {
                         if (e.button != 0)
                             return;
                         duplicateList(popupId);
+                        socket.emit('listDuplicate', list.workspaceId);
                     }} style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
                         <ThemedText>Duplicate</ThemedText>
                         <MaterialCommunityIcons size={20} name={'content-duplicate'} color={tintColor} style={{marginTop: 2}}/>
@@ -220,7 +242,7 @@ export default function WorkspaceScreen() {
                 </ThemedPopup>
                 {cardsList.map((list, index) => {
                     return (
-                        <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
+                        <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} socket={socket} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
                                 return (
                                     <ThemedCard key={index} card={card}/>
@@ -243,6 +265,7 @@ export default function WorkspaceScreen() {
                                         }
                                         return item;
                                     });
+                                    socket.emit('cardInsert', getWorkspaceId());
                                     setCardsList(updatedList);
                                 }}
                             />

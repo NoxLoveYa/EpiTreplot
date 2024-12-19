@@ -10,6 +10,8 @@ import { Card } from './ThemedCard';
 import { listUpdate, listDelete } from '@/utils/list';
 import { ThemedView } from './ThemedView';
 
+import { Socket } from 'socket.io-client';
+
 export type List = {
     id: number;
     title: string;
@@ -23,10 +25,12 @@ export type ThemedCardListProps = ViewProps & {
     darkColor?: string;
     title: string;
     list: List;
+    socket: Socket;
+    workspaceId: number;
     deleteList: (id: number) => void;
 };
 
-export function ThemedCardList({ style, lightColor, darkColor, title, list, deleteList, ...otherProps }: ThemedCardListProps) {
+export function ThemedCardList({ style, lightColor, darkColor, title, list, socket, workspaceId, deleteList, ...otherProps }: ThemedCardListProps) {
     const [label, setLabel] = useState<string>(title);
 
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
@@ -63,17 +67,20 @@ export function ThemedCardList({ style, lightColor, darkColor, title, list, dele
 
     function onTitleEdit(title: string) {
         setLabel(title);
+        socket.emit('listUpdate', workspaceId);
     }
 
     function onSave() {
         if (title == label)
             return;
         listUpdate(list.id, label, list.description);
+        socket.emit('listUpdate', workspaceId);
     }
 
     function onDelete() {
         listDelete(list.id);
         deleteList(list.id);
+        socket.emit('listDelete', workspaceId);
     }
 
     return (
