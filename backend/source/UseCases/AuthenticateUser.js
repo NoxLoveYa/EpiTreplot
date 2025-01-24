@@ -11,11 +11,11 @@ class AuthenticateUser {
             throw new Error('Username and password are required');
         }
 
-        const userData = await this.userRepository.findByUsername(username);
+        const userData = await this.userRepository.findByUsernameOrEmail(username);
         if (!userData) {
-            throw new Error('User not found');
+            throw new Error('User does not exist');
         }
-        const user = new User(userData);
+        const user = new User(userData.user);
 
         const isPasswordValid = await this.authService.verifyPassword(password, user.password);
         if (!isPasswordValid) {

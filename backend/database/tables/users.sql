@@ -1,0 +1,10 @@
+CREATE TABLE `epitreplot`.`users` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userName` VARCHAR(36) NOT NULL,
+  `displayName` VARCHAR(36) NOT NULL,
+  `email` VARCHAR(256) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `userName_UNIQUE` (`userName` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);
