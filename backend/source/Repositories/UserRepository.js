@@ -4,7 +4,7 @@ class UserRepository {
     }
 
     async findByUsername(username) {
-        const query = 'SELECT * FROM users WHERE name = ?';
+        const query = 'SELECT * FROM users WHERE userName = ?';
         const [rows] = await this.pool.execute(query, [username]);
         return rows.length ? rows[0] : null;
     }
@@ -30,8 +30,9 @@ class UserRepository {
     }
 
     async create(user) {
+        console.log('Creating user:', user);
         const sql = 'INSERT INTO users (userName, displayName, email, password) VALUES (?, ?, ?, ?)';
-        const values = [user.userName, user.displayName, user.email, user.password];
+        const values = [user.username, user.displayName ? user.displayName : user.username, user.email, user.password];
         
         
         try {

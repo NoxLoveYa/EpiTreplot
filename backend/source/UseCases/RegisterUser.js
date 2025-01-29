@@ -30,7 +30,7 @@ class RegisterUser {
         const hashedPassword = await this.authService.hashPassword(password);
         const user = new User({ username, displayName, avatar, email, password: hashedPassword });
         const response = await this.userRepository.create(user);
-        user.id = response[0].id;
+        user.id = response.id;
         return this.authService.generateToken({ id: user.id, username: user.username });
     }
 }
