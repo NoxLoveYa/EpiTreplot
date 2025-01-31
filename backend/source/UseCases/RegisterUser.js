@@ -6,18 +6,17 @@ class RegisterUser {
         this.authService = authService;
     }
 
-    async execute({ username, displayName, avatar, email, password }) {
-        if (!username || !email || !password) {
+    async execute({ userName, displayName, email, password }) {
+        if (!userName || !email || !password) {
             throw new Error('username, email, and password are required');
         }
 
         if (displayName == undefined)
             displayName = null;
 
-        if (avatar == undefined)
-            avatar = null;
+        console.log('Registering user:', userName, displayName, email, password);
 
-        const usernameExist = await this.userRepository.findByUsername(username);
+        const usernameExist = await this.userRepository.findByUsername(userName);
         if (usernameExist) {
             throw new Error('Username already exists');
         }
@@ -28,10 +27,10 @@ class RegisterUser {
         }
 
         const hashedPassword = await this.authService.hashPassword(password);
-        const user = new User({ username, displayName, avatar, email, password: hashedPassword });
+        const user = new User({ userName, displayName, email, password: hashedPassword });
         const response = await this.userRepository.create(user);
         user.id = response.id;
-        return this.authService.generateToken({ id: user.id, username: user.username });
+        return this.authService.generateToken({ id: user.id, username: user.userName });
     }
 }
 

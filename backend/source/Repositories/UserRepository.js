@@ -4,7 +4,7 @@ class UserRepository {
     }
 
     async findByUsername(username) {
-        const query = 'SELECT * FROM users WHERE userName = ?';
+        const query = 'SELECT * FROM users WHERE user_name = ?';
         const [rows] = await this.pool.execute(query, [username]);
         return rows.length ? rows[0] : null;
     }
@@ -16,11 +16,11 @@ class UserRepository {
     }
     
     async findByUsernameOrEmail(username) {
-        const query = 'SELECT * FROM users WHERE userName = ? OR email = ?';
+        const query = 'SELECT * FROM users WHERE user_name = ? OR email = ?';
         const [rows] = await this.pool.execute(query, [username, username]);
         
         if (rows.length) {
-            if (rows[0].userName === username) {
+            if (rows[0].user_name === username) {
                 return { found: 'username', user: rows[0] };
             } else if (rows[0].email === username) {
                 return { found: 'email', user: rows[0] };
@@ -31,8 +31,8 @@ class UserRepository {
 
     async create(user) {
         console.log('Creating user:', user);
-        const sql = 'INSERT INTO users (userName, displayName, email, password) VALUES (?, ?, ?, ?)';
-        const values = [user.username, user.displayName ? user.displayName : user.username, user.email, user.password];
+        const sql = 'INSERT INTO users (user_name, display_name, email, password) VALUES (?, ?, ?, ?)';
+        const values = [user.userName, user.displayName ? user.displayName : user.userName, user.email, user.password];
         
         
         try {

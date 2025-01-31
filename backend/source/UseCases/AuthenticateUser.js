@@ -6,12 +6,12 @@ class AuthenticateUser {
         this.authService = authService;
     }
 
-    async execute({ username, password }) {
-        if (!username || !password) {
+    async execute({ userName, password }) {
+        if (!userName || !password) {
             throw new Error('Username and password are required');
         }
 
-        const userData = await this.userRepository.findByUsernameOrEmail(username);
+        const userData = await this.userRepository.findByUsernameOrEmail(userName);
         if (!userData) {
             throw new Error('User does not exist');
         }
@@ -22,7 +22,7 @@ class AuthenticateUser {
             throw new Error('Invalid password');
         }
 
-        return this.authService.generateToken({ id: user.id, username: user.username });
+        return this.authService.generateToken({ id: user.id, username: user.userName });
     }
 }
 

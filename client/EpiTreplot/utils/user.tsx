@@ -9,7 +9,7 @@ export async function userLogin(username: string, password: string) {
                 'accept': 'application/json',
             },
             body: JSON.stringify({
-                username: username,
+                userName: username,
                 password: password
             })
         });
@@ -29,7 +29,7 @@ export async function userRegister(username: string, email: string, password: st
                 'accept': 'application/json',
             },
             body: JSON.stringify({
-                username: username,
+                userName: username,
                 email: email,
                 password: password
             })

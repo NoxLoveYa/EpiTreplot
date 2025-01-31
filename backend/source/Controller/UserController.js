@@ -7,8 +7,8 @@ class UserController {
 
     async login(req, res) {
         try {
-            const { username, password } = req.body;
-            const token = await this.authenticateUser.execute({ username, password });
+            const { userName, password } = req.body;
+            const token = await this.authenticateUser.execute({ userName, password });
             res.json({ token });
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -17,8 +17,8 @@ class UserController {
 
     async register(req, res) {
         try {
-            const { username, displayName, avatar, email, password } = req.body;
-            const token = await this.registerUser.execute({ username, displayName, avatar, email, password });
+            const { userName, displayName, email, password } = req.body;
+            const token = await this.registerUser.execute({ userName, displayName, email, password });
             res.json({ token });
         } catch (error) {
             res.status(400).json({ error: error.message });
