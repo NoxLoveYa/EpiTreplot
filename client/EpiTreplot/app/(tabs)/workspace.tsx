@@ -40,11 +40,10 @@ function newCard(id: number, title = "", description = "", listId: number): Card
     }
 }
 
-function newList(id: number, title = "", description = "", cards: Array<Card> = [], workspaceId: number): List {
+function newList(id: number, title = "", cards: Array<Card> = [], workspaceId: number): List {
     return {
         id: id,
         title: title,
-        description: description,
         workspaceId: workspaceId,
         cards: cards,
     }
@@ -125,7 +124,8 @@ export default function WorkspaceScreen() {
 
     async function fetchLists() {
         const lists = await listSelect(getWorkspaceId());
-        console.log(lists);
+        if (!lists.lists)
+            return;
         setCardsList(lists.lists);
     }
 
@@ -137,33 +137,15 @@ export default function WorkspaceScreen() {
     // Correct one to fix later
     useFocusEffect(
         useCallback(() => {
-            // Emit events after connection
-            socket.emit('join-room', getWorkspaceId());
-            socket.on('listInsert', (id) => {
-                fetchLists();
-            });
-            socket.on('listUpdate', (id) => {
-                fetchLists();
-            });
-            socket.on('listDuplicate', (id) => {
-                fetchLists();
-            });
-            socket.on('listDelete', (id) => {
-                fetchLists();
-            });
-            socket.on('cardInsert', (id) => {
-                fetchLists();
-            });
             fetchLists();
         }, []) // Dependencies can include variables if needed
     );
 
     async function addList() {
-        const response = (await listInsert('New List', null, getWorkspaceId())).list[0];
-        const formattedList: List = newList(response.id, response.title, response.description, [], response.workspaces_id);
-        console.log(formattedList);
-        socket.emit('listInsert', getWorkspaceId());
-        // setCardsList([...cardsList, formattedList]);
+        const response = (await listInsert('New List', getWorkspaceId())).list;
+        console.log(response);
+        const formattedList: List = newList(response.id, response.title, [], response.workspaces_id);
+        setCardsList([...cardsList, formattedList]);
     }
 
     async function cardRightClick(e: any, id: number) {

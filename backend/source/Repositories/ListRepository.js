@@ -9,10 +9,20 @@ class ListRepository {
         return rows.length ? rows : null;
     }
 
+    async findById(id) {
+        const query = `SELECT * FROM lists WHERE id = ?`;
+        const [rows] = await this.pool.execute(query, [id]);
+        return rows.length ? rows[0] : null;
+    }
+
     async createList(title, workspaceId) {
         const query = `INSERT INTO lists (title, workspaces_id) VALUES (?, ?)`;
         const [rows] = await this.pool.execute(query, [title, workspaceId]);
-        return rows.length ? rows[0] : null;
+
+        const selectQuery = `SELECT * FROM lists WHERE id = ?`;
+        const [list] = await this.pool.execute(selectQuery, [rows.insertId]);
+        console.log(list);
+        return list.length ? list[0] : null;
     }
 
     async update(id, title) {

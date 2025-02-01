@@ -55,7 +55,7 @@ export async function listSelect(workspaceId: number) {
     }
 }
 
-export async function listInsert(title: string, description: string | null, workspaceId: number) {
+export async function listInsert(title: string | null, workspaceId: number) {
     try {
         const response = await fetch(`http://localhost:5000/api/list/create`, {
             method: "POST",
@@ -65,7 +65,6 @@ export async function listInsert(title: string, description: string | null, work
             },
             body: JSON.stringify({
                 title,
-                description,
                 workspaceId
             })
         });
