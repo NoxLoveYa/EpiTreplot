@@ -9,21 +9,21 @@ class WorkspaceRepository {
         return rows.length ? rows : null;
     }
 
-    async create(title, description, image, userId) {
-        const query = 'CALL workspace_insert(?, ?, ?, ?)';
-        const [rows] = await this.pool.execute(query, [title, description, image, userId]);
+    async create(title, userId) {
+        const query = 'INSERT INTO workspaces (name, users_id) VALUES (?, ?)';
+        const [rows] = await this.pool.execute(query, [title, userId]);
         return rows.length ? rows[0] : null;
     }
 
     async delete(id) {
-        const query = 'CALL workspace_delete(?)';
+        const query = 'DELETE FROM workspaces WHERE id = ?';
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows[0] : null;
     }
 
-    async update(id, title, description) {
-        const query = 'CALL workspace_update(?, ?)';
-        const [rows] = await this.pool.execute(query, [id, title]);
+    async update(id, title) {
+        const query = 'UPDATE workspaces SET name = ? WHERE id = ?';
+        const [rows] = await this.pool.execute(query, [title, id]);
         return rows.length ? rows[0] : null;
     }
 }

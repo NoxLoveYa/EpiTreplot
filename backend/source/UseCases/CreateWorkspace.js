@@ -3,15 +3,12 @@ class CreateWorkspace {
         this.workspaceRepository = workspaceRepository;
     }
 
-    async execute({ title, description, userId }) {
+    async execute({ title, userId }) {
         if (!userId || !title) {
             throw new Error('userId and title are required');
         }
 
-        description == undefined ? description = null : description;
-
-        const list = await this.workspaceRepository.create(title, description, null, userId);
-        return list;
+        return await this.workspaceRepository.create(title, userId);
     }
 }
 
