@@ -19,7 +19,7 @@ import { ThemedCard, Card } from '@/components/ThemedCard';
 import { ThemedPopup } from '@/components/ThemedPopup';
 import { ThemedView } from '@/components/ThemedView';
 
-import { mapToLists, listSelect, listInsert, listDuplicate } from '@/utils/list';
+import { listSelect, listInsert, listDuplicate } from '@/utils/list';
 import { cardInsert } from '@/utils/card';
 import { ThemedGoBack } from '@/components/ThemedGoBack';
 import ThemedImage from '@/components/ThemedImage';
@@ -143,7 +143,6 @@ export default function WorkspaceScreen() {
 
     async function addList() {
         const response = (await listInsert('New List', getWorkspaceId())).list;
-        console.log(response);
         const formattedList: List = newList(response.id, response.title, [], response.workspaces_id);
         setCardsList([...cardsList, formattedList]);
     }
@@ -169,15 +168,6 @@ export default function WorkspaceScreen() {
         fetchLists();
     }
 
-    async function getInfos(id: number) {
-        const list = cardsList.find(list => list.id === id);
-        if (!list)
-            return;
-        // @ts-ignore
-        setPopupDescription(list.description);
-        console.log(list.description);
-    }
-
     return (
         <ThemedBackground>
             <ThemedHeader>
@@ -196,18 +186,7 @@ export default function WorkspaceScreen() {
                     (e) => {
                         if (e.button != 0)
                             return;
-                        let list = getInfos(popupId);
-                        setPopupInfos(!popupInfos);
-                    }} style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
-                        <ThemedText>Description</ThemedText>
-                        <MaterialCommunityIcons size={20} name={'expand-all'} color={tintColor} style={{marginTop: 2, paddingLeft: 9}}/>
-                    </ThemedView>
-                    <ThemedView onPointerDown={
-                    (e) => {
-                        if (e.button != 0)
-                            return;
                         duplicateList(popupId);
-                        socket.emit('listDuplicate', list.workspaceId);
                     }} style={{display: 'flex', flexDirection: 'row', gap: 10, cursor: 'pointer', backgroundColor: 'transparent'}}>
                         <ThemedText>Duplicate</ThemedText>
                         <MaterialCommunityIcons size={20} name={'content-duplicate'} color={tintColor} style={{marginTop: 2}}/>

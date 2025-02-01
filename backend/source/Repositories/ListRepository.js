@@ -40,7 +40,10 @@ class ListRepository {
     async duplicate(id) {
         const query = `INSERT INTO lists (title, workspaces_id) SELECT title, workspaces_id FROM lists WHERE id = ?`;
         const [rows] = await this.pool.execute(query, [id]);
-        return rows.length ? rows[0] : null;
+        
+        const selectQuery = `SELECT * FROM lists WHERE id = ?`;
+        const [list] = await this.pool.execute(selectQuery, [rows.insertId]);
+        return list.length ? list[0] : null;
     }
 }
 
