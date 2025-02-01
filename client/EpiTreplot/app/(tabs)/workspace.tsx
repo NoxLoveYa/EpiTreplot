@@ -125,7 +125,8 @@ export default function WorkspaceScreen() {
 
     async function fetchLists() {
         const lists = await listSelect(getWorkspaceId());
-        setCardsList(mapToLists(lists.lists));
+        console.log(lists);
+        setCardsList(lists.lists);
     }
 
     // Remove context menu
@@ -243,11 +244,11 @@ export default function WorkspaceScreen() {
                 {cardsList.map((list, index) => {
                     return (
                         <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} socket={socket} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
-                            {list.cards.map((card, index) => {
+                            {/* {list.cards.map((card, index) => {
                                 return (
                                     <ThemedCard key={index} card={card}/>
                                 );
-                            })}
+                            })} */}
                             <AnotherListButton
                                 title={'Add another card'}
                                 // @ts-ignore

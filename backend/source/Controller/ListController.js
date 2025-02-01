@@ -19,8 +19,8 @@ class ListController {
 
     async CreateList(req, res) {
         try {
-            const { title, description, workspaceId } = req.body;
-            const list = await this.createList.execute({ title, description, workspaceId });
+            const { title, workspaceId } = req.body;
+            const list = await this.createList.execute({ title, workspaceId });
             res.json({ list });
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -29,8 +29,8 @@ class ListController {
 
     async UpdateList(req, res) {
         try {
-            const { id, title, description } = req.body;
-            const list = await this.updateList.execute({ id, title, description });
+            const { id, title } = req.body;
+            const list = await this.updateList.execute({ id, title });
             res.json({ list });
         } catch (error) {
             res.status(400).json({ error: error.message });

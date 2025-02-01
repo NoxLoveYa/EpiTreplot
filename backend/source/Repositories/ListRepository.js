@@ -4,31 +4,31 @@ class ListRepository {
     }
 
     async findByWorkspace(id) {
-        const query = `call list_select(?)`;
+        const query = `SELECT * FROM lists WHERE workspaces_id = ?`;
         const [rows] = await this.pool.execute(query, [id]);
+        return rows.length ? rows : null;
+    }
+
+    async createList(title, workspaceId) {
+        const query = `INSERT INTO lists (title, workspaces_id) VALUES (?, ?)`;
+        const [rows] = await this.pool.execute(query, [title, workspaceId]);
         return rows.length ? rows[0] : null;
     }
 
-    async createList(title, description, workspaceId) {
-        const query = `call list_insert(?, ?, ?)`;
-        const [rows] = await this.pool.execute(query, [title, description, workspaceId]);
-        return rows.length ? rows[0] : null;
-    }
-
-    async update(id, title, description) {
-        const query = `call list_update(?, ?, ?)`;
-        const [rows] = await this.pool.execute(query, [id, title, description]);
+    async update(id, title) {
+        const query = `UPDATE lists SET title = ? WHERE id = ?`;
+        const [rows] = await this.pool.execute(query, [title, id]);
         return rows.length ? rows[0] : null;
     }
 
     async delete(id) {
-        const query = `call list_delete(?)`;
+        const query = `DELETE FROM lists WHERE id = ?`;
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows[0] : null;
     }
 
     async duplicate(id) {
-        const query = `call list_duplicate(?)`;
+        const query = `INSERT INTO lists (title, workspaces_id) SELECT title, workspaces_id FROM lists WHERE id = ?`;
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows[0] : null;
     }
