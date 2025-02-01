@@ -4,9 +4,9 @@ class WorkspaceRepository {
     }
 
     async findByUserId(id) {
-        const query = 'CALL workspace_select(?)';
+        const query = 'SELECT * FROM workspaces WHERE users_id = ?';
         const [rows] = await this.pool.execute(query, [id]);
-        return rows.length ? rows[0] : null;
+        return rows.length ? rows : null;
     }
 
     async create(title, description, image, userId) {

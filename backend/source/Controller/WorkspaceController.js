@@ -18,8 +18,8 @@ class WorkspaceController {
 
     async createWorkspaces(req, res) {
         try {
-            const { title, description, userId } = req.body;
-            const data = await this.createWorkspace.execute({ title, description, userId });
+            const { title, userId } = req.body;
+            const data = await this.createWorkspace.execute({ title, userId });
             res.json({ data });
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -39,7 +39,7 @@ class WorkspaceController {
     async UpdateWorkspace(req, res) {
         try {
             const { id, title, description } = req.body;
-            const data = await this.updateWorkspace.execute( { id, title, description });
+            const data = await this.updateWorkspace.execute( { id, title });
             res.json({ data });
         } catch (error) {
             res.status(400).json( { error: error.message });

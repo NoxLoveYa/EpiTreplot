@@ -104,7 +104,7 @@ export default function HomeScreen() {
                 {workspaces.map((workspace, index) => {
                     return (
                         <ThemedContainer key={workspace.id} style={styles.labelContainer}>
-                            <TextInput style={styles.textInput} defaultValue={workspace.title} onChangeText={(text) => { workspace.title = text }} onBlur={() => {workspaceUpdate(workspace.id, workspace.title)}}></TextInput>
+                            <TextInput style={styles.textInput} defaultValue={workspace.name} onChangeText={(text) => { workspace.name = text }} onBlur={() => {workspaceUpdate(workspace.id, workspace.name)}}></TextInput>
                             <ThemedContainer style={{display: 'flex', flexDirection: 'row'}}>
                                 <MaterialCommunityIcons name='arrow-right-bold-box' size={25} color={tintColor} onPress={() => {
                                         localStorage.setItem('EpiTreplotWorkspace', workspace.id.toString());
