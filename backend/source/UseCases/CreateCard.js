@@ -3,15 +3,13 @@ class CreateCard {
         this.cardRepository = cardRepository;
     }
 
-    async execute({ title, description, listId }) {
+    async execute({ title, listId }) {
         if (!listId || !title) {
             throw new Error('listId and title are required');
         }
 
-        description == undefined ? description = null : description;
-
-        const list = await this.cardRepository.create(title, description, listId);
-        return list;
+        const card = await this.cardRepository.create(title, listId);
+        return card;
     }
 }
 

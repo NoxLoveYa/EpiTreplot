@@ -216,7 +216,7 @@ export default function WorkspaceScreen() {
                                 style={{container: {padding: 0, backgroundColor: 'transparent'}, label: {padding: 0}}}
                                 size={23}
                                 onPress={async () => {
-                                    const response = (await cardInsert('New Card', null, list.id)).card[0];
+                                    const response = (await cardInsert('New Card', null, list.id)).card;
                                     const formattedCard: Card = newCard(response.id, response.title, response.description, response.lists_id);
                                     const updatedList = cardsList.map(item => {
                                         if (item.id === list.id) {
@@ -227,7 +227,6 @@ export default function WorkspaceScreen() {
                                         }
                                         return item;
                                     });
-                                    socket.emit('cardInsert', getWorkspaceId());
                                     setCardsList(updatedList);
                                 }}
                             />

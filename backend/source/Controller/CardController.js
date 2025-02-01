@@ -6,8 +6,8 @@ class CardController {
 
     async createEmptyCard(req, res) {
         try {
-            const { title, description, listId } = req.body;
-            const card = await this.createCard.execute({ title, description, listId });
+            const { title, listId } = req.body;
+            const card = await this.createCard.execute({ title, listId });
             res.json({ card });
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -16,8 +16,8 @@ class CardController {
 
     async updateCardById(req, res) {
         try {
-            const { id, title, description, listId } = req.body;
-            const card = await this.updateCard.execute({ id, title, description, listId });
+            const { id, title, listId } = req.body;
+            const card = await this.updateCard.execute({ id, title, listId });
             res.json({ card });
         } catch (error) {
             res.status(400).json({ error: error.message });

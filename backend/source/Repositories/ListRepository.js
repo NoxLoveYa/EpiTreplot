@@ -4,7 +4,7 @@ class ListRepository {
     }
 
     async findByWorkspace(id) {
-        const query = `SELECT * FROM lists WHERE workspaces_id = ?`;
+        const query = `SELECT * FROM lists LEFT JOIN cards ON lists.id = cards.lists_id WHERE lists.workspaces_id = ?;`;
         const [rows] = await this.pool.execute(query, [id]);
         return rows.length ? rows : null;
     }
