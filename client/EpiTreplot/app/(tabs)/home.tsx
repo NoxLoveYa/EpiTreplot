@@ -101,7 +101,7 @@ export default function HomeScreen() {
                     <MaterialCommunityIcons name='plus-box' size={35} color={tintColor} onPress={createWorkspace} style={{cursor: 'pointer'}}></MaterialCommunityIcons>
                 </ThemedContainer>
                 <ThemedContainer border={true} style={{width: '100%', height: 1, padding: 0, margin: 0}}></ThemedContainer>
-                {workspaces.map((workspace, index) => {
+                {workspaces && workspaces.map((workspace, index) => {
                     return (
                         <ThemedContainer key={workspace.id} style={styles.labelContainer}>
                             <TextInput style={styles.textInput} defaultValue={workspace.name} onChangeText={(text) => { workspace.name = text }} onBlur={() => {workspaceUpdate(workspace.id, workspace.name)}}></TextInput>
