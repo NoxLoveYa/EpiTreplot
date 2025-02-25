@@ -4,9 +4,40 @@ class ListRepository {
     }
 
     async findByWorkspace(id) {
-        const query = `SELECT * FROM lists LEFT JOIN cards ON lists.id = cards.lists_id WHERE lists.workspaces_id = ?;`;
+        const query = `
+            SELECT lists.id, lists.title, lists.workspaces_id, 
+                   cards.id AS card_id, cards.title AS card_title
+            FROM lists 
+            LEFT JOIN cards ON lists.id = cards.lists_id 
+            WHERE lists.workspaces_id = ?;
+        `;
+        
         const [rows] = await this.pool.execute(query, [id]);
-        return rows.length ? rows : null;
+    
+        if (!rows.length) return null;
+    
+        // Grouping lists and their corresponding cards
+        const listsMap = new Map();
+    
+        rows.forEach(row => {
+            if (!listsMap.has(row.id)) {
+                listsMap.set(row.id, {
+                    id: row.id,
+                    title: row.title,
+                    workspaces_id: row.workspaces_id,
+                    cards: []
+                });
+            }
+    
+            if (row.card_id) { // Avoid pushing null card entries
+                listsMap.get(row.id).cards.push({
+                    id: row.card_id,
+                    title: row.card_title
+                });
+            }
+        });
+    
+        return Array.from(listsMap.values());
     }
 
     async findById(id) {
