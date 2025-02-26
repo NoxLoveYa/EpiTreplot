@@ -20,7 +20,7 @@ import { ThemedPopup } from '@/components/ThemedPopup';
 import { ThemedView } from '@/components/ThemedView';
 
 import { listSelect, listInsert, listDuplicate } from '@/utils/list';
-import { cardInsert } from '@/utils/card';
+import { cardInsert, cardDelete } from '@/utils/card';
 import { ThemedGoBack } from '@/components/ThemedGoBack';
 import ThemedImage from '@/components/ThemedImage';
 
@@ -31,12 +31,10 @@ const socket = io('http://localhost:5000', {
     transports: ['websocket'], // Force WebSocket transport
 });
 
-function newCard(id: number, title = "", description = "", listId: number): Card {
+function newCard(id: number, title = ""): Card {
     return {
         id: id,
         title: title,
-        description: description,
-        listId: listId
     }
 }
 
@@ -168,6 +166,19 @@ export default function WorkspaceScreen() {
         fetchLists();
     }
 
+    async function deleteCard(id: number) {
+        // @ts-ignore
+        const response = await cardDelete(id);
+        if (response.error)
+            return;
+        setCardsList(cardsList.map(item => {
+            return {
+                ...item,
+                cards: item.cards.filter(card => card.id != id)
+            }
+        }));
+    }
+
     return (
         <ThemedBackground>
             <ThemedHeader>
@@ -207,7 +218,7 @@ export default function WorkspaceScreen() {
                         <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} socket={socket} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
                                 return (
-                                    <ThemedCard key={index} card={card}/>
+                                    <ThemedCard key={index} card={card} deleteCard={deleteCard}/>
                                 );
                             })}
                             <AnotherListButton
@@ -217,7 +228,7 @@ export default function WorkspaceScreen() {
                                 size={23}
                                 onPress={async () => {
                                     const response = (await cardInsert('New Card', null, list.id)).card;
-                                    const formattedCard: Card = newCard(response.id, response.title, response.description, response.lists_id);
+                                    const formattedCard: Card = newCard(response.id, response.title);
                                     const updatedList = cardsList.map(item => {
                                         if (item.id === list.id) {
                                             return {

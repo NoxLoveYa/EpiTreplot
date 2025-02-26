@@ -32,6 +32,18 @@ class CardRepository {
 
         return updatedRows.length ? updatedRows[0] : null;
     }
+
+    async delete(id) {
+        const query = `DELETE FROM cards WHERE id = ?`;
+        const [rows] = await this.pool.execute(query, [id]);
+
+        if (rows.affectedRows === 0) {
+            throw new Error('Card not deleted');
+            return false;
+        }
+
+        return true;
+    }
 }
 
 module.exports = CardRepository;

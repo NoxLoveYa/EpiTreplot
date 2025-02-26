@@ -10,17 +10,17 @@ import { cardUpdate } from '@/utils/card';
 
 export type ThemedCardProps = ThemedViewProps & {
     card: Card;
+    deleteCard: (id: number) => void;
 };
 
 export type Card = {
     id: number;
     title: string;
-    description?: string;
-    listId: number;
 }
 
-export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }: ThemedCardProps) {
+export function ThemedCard({ style, lightColor, darkColor, card, deleteCard,...otherProps }: ThemedCardProps) {
     const [penHovered, setPenHovered] = useState<boolean>(false);
+    const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
     const [editToggled, setEditToggled] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(card.title);
 
@@ -60,6 +60,14 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
             padding: 3,
             borderRadius: 5,
             backgroundColor: iconBackgroundColor
+        },
+        delete: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 3,
+            borderRadius: 5,
+            backgroundColor: deleteHovered ? iconColor : 'transparent'
         }
     });
 
@@ -90,6 +98,21 @@ export function ThemedCard({ style, lightColor, darkColor, card,...otherProps }:
                     }}
                 >
                     <MaterialCommunityIcons name={'pen'} color={penHovered || editToggled ? backgroundColor : iconColor} size={20}/>
+                </Pressable>
+            </ThemedView>
+            <ThemedView style={styles.delete}>
+                <Pressable 
+                    onHoverIn={() => {
+                        setDeleteHovered(true);
+                    }}
+                    onHoverOut={() => {
+                        setDeleteHovered(false);
+                    }}
+                    onPress={() => {
+                        deleteCard(card.id);
+                    }}
+                >
+                    <MaterialCommunityIcons name={'trash-can-outline'} color={deleteHovered ? backgroundColor : iconColor} size={20}/>
                 </Pressable>
             </ThemedView>
         </ThemedView>
