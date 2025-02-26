@@ -90,9 +90,8 @@ export default function HomeScreen() {
         <ThemedBackground>
             <ThemedHeader>
                 <View/>
-                <ThemedView style={{display: 'flex', flexDirection: 'row'}}>
-                    <MaterialCommunityIcons name='face-man-profile' size={25} color={tintColor} onPress={() => {navigation.navigate("Profile")}} style={{right: 0, cursor: 'pointer'}}/>
-                    <MaterialCommunityIcons name='logout-variant' size={25} color={tintColor} onPress={() => {localStorage.removeItem('EpiTreplotToken'); window.location.reload()}} style={{right: 0, cursor: 'pointer'}}/>\
+                <ThemedView style={{display: 'flex', flexDirection: 'row', backgroundColor: 'transparent'}}>
+                    <MaterialCommunityIcons name='logout-variant' size={25} color={tintColor} onPress={() => {localStorage.removeItem('EpiTreplotToken'); window.location.reload()}} style={{right: 0, cursor: 'pointer'}}/>
                 </ThemedView>
             </ThemedHeader>
             <ThemedContainer style={styles.container}>
