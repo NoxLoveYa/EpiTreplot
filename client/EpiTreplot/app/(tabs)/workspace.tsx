@@ -132,6 +132,11 @@ export default function WorkspaceScreen() {
         }, []) // Dependencies can include variables if needed
     );
 
+    useEffect(() => {
+        console.log('Workspace ID:', getWorkspaceId());
+    }
+    , []);
+
     async function addList() {
         const response = (await listInsert('New List', getWorkspaceId())).list;
         const formattedList: List = newList(response.id, response.title, [], response.workspaces_id);

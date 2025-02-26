@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -67,6 +67,12 @@ export default function HomeScreen() {
         await fetchWorkspaces();
     }
 
+    const copyLink = (id: number) => {
+        const link = `http://localhost:8081/workspace/${id}`;
+        navigator.clipboard.writeText(link);
+        alert("Link copied!");
+    };
+
     useEffect(() => {
         userValidate(localStorage.getItem('EpiTreplotToken')).then((e) => {
             if (e.data == null) {
@@ -85,6 +91,19 @@ export default function HomeScreen() {
             return;
         fetchWorkspaces();
     }, [user]);
+    
+    useLayoutEffect(() => {
+        const url = window.location.href;  // Get the current URL
+        const matches = url.match(/workspace\/(\d+)/);
+
+        if (matches) {
+            const workspaceId = matches[1];  // Extract the workspace ID from the URL
+            localStorage.setItem('EpiTreplotWorkspace', workspaceId);
+            setTimeout(() => {
+                navigation.navigate('Workspace');
+            }, 100);
+        }
+      }, []); 
 
     return (
         <ThemedBackground>
@@ -109,7 +128,7 @@ export default function HomeScreen() {
                                         localStorage.setItem('EpiTreplotWorkspace', workspace.id.toString());
                                         navigation.navigate('Workspace');
                                     }} style={{cursor: 'pointer'}}/>
-                                <MaterialCommunityIcons name='share-variant' size={25} color='white' style={{cursor: 'pointer'}}/>
+                                <MaterialCommunityIcons name='share-variant' size={25} color='white' style={{cursor: 'pointer'}} onPress={() => {copyLink(workspace.id);}}/>
                                 <MaterialCommunityIcons name='trash-can' size={25} color={'red'} onPress={() => {deleteWorkspace(workspace.id)}} style={{cursor: 'pointer'}}/>
                             </ThemedContainer>
                         </ThemedContainer>
