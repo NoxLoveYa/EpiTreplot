@@ -24,13 +24,6 @@ import { cardInsert, cardDelete } from '@/utils/card';
 import { ThemedGoBack } from '@/components/ThemedGoBack';
 import ThemedImage from '@/components/ThemedImage';
 
-import { io, Socket } from 'socket.io-client';
-
-// Connect to your backend
-const socket = io('http://localhost:5000', {
-    transports: ['websocket'], // Force WebSocket transport
-});
-
 function newCard(id: number, title = ""): Card {
     return {
         id: id,
@@ -162,7 +155,6 @@ export default function WorkspaceScreen() {
         if (!list)
             return;
         await listDuplicate(list.id);
-        socket.emit('listDuplicate', list.workspaceId);
         fetchLists();
     }
 
@@ -215,7 +207,7 @@ export default function WorkspaceScreen() {
                 </ThemedPopup>
                 {cardsList.map((list, index) => {
                     return (
-                        <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} socket={socket} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
+                        <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
                                 return (
                                     <ThemedCard key={index} card={card} deleteCard={deleteCard}/>

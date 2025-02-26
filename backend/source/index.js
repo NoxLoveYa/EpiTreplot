@@ -45,35 +45,8 @@ app.use('/api/list', listRoutes);
 
 // Socket.IO configuration
 io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
   socket.on('join-room', (room) => {
     socket.join(room);
-  });
-
-  socket.on('listInsert', (id) => {
-    io.to(id).emit('listInsert', id);
-  });
-
-  socket.on('listUpdate', (id) => {
-    io.to(id).emit('listUpdate', id);
-  });
-
-  socket.on('listDuplicate', (id) => {
-    io.to(id).emit('listDuplicate', id);
-  });
-
-  socket.on('listDelete', (id) => {
-    io.to(id).emit('listDelete', id);
-  });
-
-  socket.on('cardInsert', (id) => {
-    io.to(id).emit('cardInsert', id);
-  });
-
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    console.log(`User disconnected: ${socket.id}`);
   });
 });
 
