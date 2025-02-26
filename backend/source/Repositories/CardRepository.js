@@ -18,10 +18,19 @@ class CardRepository {
         }
     }
 
-    async update(id, title, description, listId) {
-        const query = `call card_update(?, ?, ?, ?)`;
-        const [rows] = await this.pool.execute(query, [id, title, description, listId]);
-        return rows.length ? rows[0] : null;
+    async update(id, title) {
+        const query = `UPDATE cards set title = ? WHERE id = ?`;
+        const [rows] = await this.pool.execute(query, [title, id]);
+        onst [result] = await this.pool.execute(updateQuery, [name, description, id]);
+
+        // If no rows were affected, return null (card not found)
+        if (result.affectedRows === 0) return null;
+
+        // Fetch and return the updated card
+        const selectQuery = `SELECT * FROM cards WHERE id = ?;`;
+        const [updatedRows] = await this.pool.execute(selectQuery, [id]);
+
+        return updatedRows.length ? updatedRows[0] : null;
     }
 }
 

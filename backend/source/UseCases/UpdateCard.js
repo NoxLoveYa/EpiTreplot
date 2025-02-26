@@ -3,18 +3,16 @@ class UpdateCard {
         this.cardRepository = cardRepository;
     }
 
-    async execute({ id, title, description, listId }) {
+    async execute({ id, title }) {
         if (!id) {
             throw new Error('card id is required');
         }
 
-        if (!title || !listId) {
-            throw new Error('title and listId are required');
+        if (!title) {
+            throw new Error('title is required');
         }
 
-        description == undefined ? description = null : description;
-
-        const list = await this.cardRepository.update(id, title, description, listId);
+        const list = await this.cardRepository.update(id, title);
         return list;
     }
 }

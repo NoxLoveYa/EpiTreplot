@@ -16,8 +16,8 @@ class CardController {
 
     async updateCardById(req, res) {
         try {
-            const { id, title, listId } = req.body;
-            const card = await this.updateCard.execute({ id, title, listId });
+            const { id, title } = req.body;
+            const card = await this.updateCard.execute({ id, title });
             res.json({ card });
         } catch (error) {
             res.status(400).json({ error: error.message });
