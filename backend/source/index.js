@@ -61,6 +61,10 @@ io.on('connection', (socket) => {
     socket.to(room).emit('duplicate-list');
     console.log('duplicate-list', room);
   });
+  socket.on('update-list', (room, id, label) => {
+    socket.to(room).emit('update-list', id, label);
+    console.log('update-list', room, id, label);
+  });
   socket.on('delete-list', (room, id) => {
     socket.to(room).emit('delete-list', id);
     console.log('delete-list', room, id);

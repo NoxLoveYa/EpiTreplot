@@ -111,6 +111,7 @@ export default function WorkspaceScreen() {
     const [popupPosition, setPopupPosition] = useState({x: 0, y: 0});
     const [popupDescription, setPopupDescription] = useState<string>('');
     const [socket, setSocket] = useState<any>(null);
+    const [dummy, setDummy] = useState<boolean>(false);
 
     const tintColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, 'tint');
     const workspaceId = getWorkspaceId();
@@ -144,12 +145,19 @@ export default function WorkspaceScreen() {
                 fetchLists();
             }, 175);
         });
-        socket.on('delete-list', (id: number) => {
+        socket.on('duplicate-list', () => {
             setTimeout(() => {
                 fetchLists();
             }, 175);
         });
-        socket.on('duplicate-list', () => {
+        socket.on('update-list', (id: number, label: string) => {
+            console.log('List updated', id, label);
+            setTimeout(() => {
+                setCardsList([]);
+                fetchLists();
+            }, 175);
+        });
+        socket.on('delete-list', (id: number) => {
             setTimeout(() => {
                 fetchLists();
             }, 175);
@@ -176,6 +184,10 @@ export default function WorkspaceScreen() {
     function deleteList(id: number) {
         setCardsList(cardsList.filter(list => list.id != id));
         socket.emit('delete-list', workspaceId, id);
+    }
+
+    function editList(id: number, label: string) {
+        socket.emit('update-list', workspaceId, id, label);
     }
 
     async function duplicateList(id: number) {
@@ -236,7 +248,7 @@ export default function WorkspaceScreen() {
                 </ThemedPopup>
                 {cardsList.map((list, index) => {
                     return (
-                        <ThemedCardList key={index} title={list.title} list={list} deleteList={deleteList} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
+                        <ThemedCardList key={index} title={list.title} list={list} editList={editList} deleteList={deleteList} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
                                 return (
                                     <ThemedCard key={index} card={card} deleteCard={deleteCard}/>
