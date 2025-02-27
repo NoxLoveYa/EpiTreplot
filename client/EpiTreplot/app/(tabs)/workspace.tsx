@@ -167,6 +167,11 @@ export default function WorkspaceScreen() {
                 fetchLists();
             }, 175);
         });
+        socket.on('delete-card', (id: number) => {
+            setTimeout(() => {
+                fetchLists();
+            }, 175);
+        });
         setSocket(socket);
     }
     , [workspaceId]);
@@ -215,6 +220,7 @@ export default function WorkspaceScreen() {
                 cards: item.cards.filter(card => card.id != id)
             }
         }));
+        socket.emit('delete-card', workspaceId, id);
     }
 
     return (

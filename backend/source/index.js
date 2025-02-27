@@ -73,6 +73,14 @@ io.on('connection', (socket) => {
     socket.to(room).emit('add-card', listId);
     console.log('add-card', room, listId);
   });
+  socket.on('update-card', (room, cardId, title) => {
+    socket.to(room).emit('update-card', cardId, title);
+    console.log('update-card', room, cardId, title);
+  });
+  socket.on('delete-card', (room, cardId) => {
+    socket.to(room).emit('delete-card', cardId);
+    console.log('delete-card', room, cardId);
+  });
 });
 
 // Start the server
