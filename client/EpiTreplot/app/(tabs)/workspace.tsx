@@ -162,6 +162,11 @@ export default function WorkspaceScreen() {
                 fetchLists();
             }, 175);
         });
+        socket.on('add-card', (id: number) => {
+            setTimeout(() => {
+                fetchLists();
+            }, 175);
+        });
         setSocket(socket);
     }
     , [workspaceId]);
@@ -272,6 +277,7 @@ export default function WorkspaceScreen() {
                                         return item;
                                     });
                                     setCardsList(updatedList);
+                                    socket.emit('add-card', workspaceId, list.id);
                                 }}
                             />
                         </ThemedCardList>
