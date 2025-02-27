@@ -57,6 +57,10 @@ io.on('connection', (socket) => {
     socket.to(room).emit('add-list', id);
     console.log('add-list', room, id);
   });
+  socket.on('delete-list', (room, id) => {
+    socket.to(room).emit('delete-list', id);
+    console.log('delete-list', room, id);
+  });
 });
 
 // Start the server

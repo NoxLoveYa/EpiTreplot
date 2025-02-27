@@ -140,7 +140,14 @@ export default function WorkspaceScreen() {
         const socket = io('http://localhost:5000', { transports: ['websocket'] });
         socket.emit('join-room', workspaceId);
         socket.on('add-list', (id: number) => {
-            fetchLists();
+            setTimeout(() => {
+                fetchLists();
+            }, 175);
+        });
+        socket.on('delete-list', (id: number) => {
+            setTimeout(() => {
+                fetchLists();
+            }, 175);
         });
         setSocket(socket);
     }
@@ -163,6 +170,7 @@ export default function WorkspaceScreen() {
 
     function deleteList(id: number) {
         setCardsList(cardsList.filter(list => list.id != id));
+        socket.emit('delete-list', workspaceId, id);
     }
 
     async function duplicateList(id: number) {
