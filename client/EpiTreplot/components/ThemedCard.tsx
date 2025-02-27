@@ -76,10 +76,11 @@ export function ThemedCard({ style, lightColor, darkColor, card, deleteCard, edi
         setTitle(title);
     }
 
-    function onSave() {
+    async function onSave() {
         if (title == card.title)
             return;
-        cardUpdate(card.id, title);
+        await cardUpdate(card.id, title);
+        editCard(card.id, title);
     }
 
     return (

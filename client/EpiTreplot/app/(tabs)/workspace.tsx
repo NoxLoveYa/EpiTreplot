@@ -159,11 +159,19 @@ export default function WorkspaceScreen() {
         });
         socket.on('delete-list', (id: number) => {
             setTimeout(() => {
+                setCardsList([]);
                 fetchLists();
             }, 175);
         });
         socket.on('add-card', (id: number) => {
             setTimeout(() => {
+                fetchLists();
+            }, 175);
+        });
+        socket.on('update-card', (id: number, title: string) => {
+            console.log('Card updated', id, title);
+            setTimeout(() => {
+                setCardsList([]);
                 fetchLists();
             }, 175);
         });
@@ -223,6 +231,10 @@ export default function WorkspaceScreen() {
         socket.emit('delete-card', workspaceId, id);
     }
 
+    async function editCard(id: number, title: string) {
+        socket.emit('update-card', workspaceId, id, title);
+    }
+
     return (
         <ThemedBackground>
             <ThemedHeader>
@@ -263,7 +275,7 @@ export default function WorkspaceScreen() {
                             {list.cards.map((card, index) => {
                                 console.log(card);
                                 return (
-                                    <ThemedCard key={index} card={card} deleteCard={deleteCard}/>
+                                    <ThemedCard key={index} card={card} deleteCard={deleteCard} editCard={editCard}/>
                                 );
                             })}
                             <AnotherListButton
