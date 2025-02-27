@@ -45,8 +45,17 @@ app.use('/api/list', listRoutes);
 
 // Socket.IO configuration
 io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected:', socket.id);
+  });
   socket.on('join-room', (room) => {
     socket.join(room);
+  });
+  socket.on('add-list', (room, id) => {
+    socket.to(room).emit('add-list', id);
+    console.log('add-list', room, id);
   });
 });
 

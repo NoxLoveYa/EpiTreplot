@@ -24,6 +24,8 @@ import { cardInsert, cardDelete } from '@/utils/card';
 import { ThemedGoBack } from '@/components/ThemedGoBack';
 import ThemedImage from '@/components/ThemedImage';
 
+import { io, Socket } from 'socket.io-client';
+
 function newCard(id: number, title = ""): Card {
     return {
         id: id,
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
         // @ts-ignore
         overflow: 'auto'
     }
-}) 
+})
 
 export default function WorkspaceScreen() {
     const [cardsList, setCardsList] = useState<List[]>([]);
@@ -108,8 +110,10 @@ export default function WorkspaceScreen() {
     const [popupInfos, setPopupInfos] = useState<boolean>(false);
     const [popupPosition, setPopupPosition] = useState({x: 0, y: 0});
     const [popupDescription, setPopupDescription] = useState<string>('');
+    const [socket, setSocket] = useState<any>(null);
 
     const tintColor = useThemeColor({ light: Colors.light.tint, dark: Colors.dark.tint }, 'tint');
+    const workspaceId = getWorkspaceId();
 
     const navigation = useNavigation();
 
@@ -133,14 +137,20 @@ export default function WorkspaceScreen() {
     );
 
     useEffect(() => {
-        console.log('Workspace ID:', getWorkspaceId());
+        const socket = io('http://localhost:5000', { transports: ['websocket'] });
+        socket.emit('join-room', workspaceId);
+        socket.on('add-list', (id: number) => {
+            fetchLists();
+        });
+        setSocket(socket);
     }
-    , []);
+    , [workspaceId]);
 
     async function addList() {
         const response = (await listInsert('New List', getWorkspaceId())).list;
         const formattedList: List = newList(response.id, response.title, [], response.workspaces_id);
         setCardsList([...cardsList, formattedList]);
+        socket.emit('add-list', workspaceId, response.id);
     }
 
     async function cardRightClick(e: any, id: number) {
