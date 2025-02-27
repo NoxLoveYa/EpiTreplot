@@ -149,6 +149,11 @@ export default function WorkspaceScreen() {
                 fetchLists();
             }, 175);
         });
+        socket.on('duplicate-list', () => {
+            setTimeout(() => {
+                fetchLists();
+            }, 175);
+        });
         setSocket(socket);
     }
     , [workspaceId]);
@@ -179,6 +184,7 @@ export default function WorkspaceScreen() {
             return;
         await listDuplicate(list.id);
         fetchLists();
+        socket.emit('duplicate-list', workspaceId);
     }
 
     async function deleteCard(id: number) {
