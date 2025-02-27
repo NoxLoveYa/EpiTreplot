@@ -11,6 +11,7 @@ import { cardUpdate } from '@/utils/card';
 export type ThemedCardProps = ThemedViewProps & {
     card: Card;
     deleteCard: (id: number) => void;
+    editCard: (id: number, title: string) => void;
 };
 
 export type Card = {
@@ -18,7 +19,7 @@ export type Card = {
     title: string;
 }
 
-export function ThemedCard({ style, lightColor, darkColor, card, deleteCard,...otherProps }: ThemedCardProps) {
+export function ThemedCard({ style, lightColor, darkColor, card, deleteCard, editCard ,...otherProps }: ThemedCardProps) {
     const [penHovered, setPenHovered] = useState<boolean>(false);
     const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
     const [editToggled, setEditToggled] = useState<boolean>(false);
@@ -78,7 +79,7 @@ export function ThemedCard({ style, lightColor, darkColor, card, deleteCard,...o
     function onSave() {
         if (title == card.title)
             return;
-        cardUpdate(card.id, title, card.description, card.listId);
+        cardUpdate(card.id, title);
     }
 
     return (

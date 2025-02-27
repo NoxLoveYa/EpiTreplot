@@ -21,10 +21,9 @@ class CardRepository {
     async update(id, title) {
         const query = `UPDATE cards set title = ? WHERE id = ?`;
         const [rows] = await this.pool.execute(query, [title, id]);
-        onst [result] = await this.pool.execute(updateQuery, [name, description, id]);
 
         // If no rows were affected, return null (card not found)
-        if (result.affectedRows === 0) return null;
+        if (rows.affectedRows === 0) return null;
 
         // Fetch and return the updated card
         const selectQuery = `SELECT * FROM cards WHERE id = ?;`;

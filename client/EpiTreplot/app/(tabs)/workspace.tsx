@@ -261,6 +261,7 @@ export default function WorkspaceScreen() {
                     return (
                         <ThemedCardList key={index} title={list.title} list={list} editList={editList} deleteList={deleteList} workspaceId={getWorkspaceId()} onPointerDown={(e) => {cardRightClick(e, list.id); }}>
                             {list.cards.map((card, index) => {
+                                console.log(card);
                                 return (
                                     <ThemedCard key={index} card={card} deleteCard={deleteCard}/>
                                 );

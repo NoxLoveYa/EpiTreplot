@@ -22,7 +22,7 @@ export async function cardInsert(title: string, description: string | null, list
     }
 }
 
-export async function cardUpdate(id: number, title: string, description: string | undefined, listId: number) {
+export async function cardUpdate(id: number, title: string) {
     try {
         const response = await fetch(`http://localhost:5000/api/card/update`, {
             method: "POST",
@@ -32,9 +32,7 @@ export async function cardUpdate(id: number, title: string, description: string 
             },
             body: JSON.stringify({
                 id,
-                title,
-                description,
-                listId
+                title
             })
         });
         return await response.json();
